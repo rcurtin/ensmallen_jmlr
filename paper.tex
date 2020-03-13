@@ -50,31 +50,28 @@
 \newcommand{\fracpartial}[2]{\frac{\partial #1}{\partial  #2}}
 
 % Heading arguments are {volume}{year}{pages}{date submitted}{date published}{paper id}{author-full-names}
-
-\jmlrheading{1}{2000}{1-48}{4/00}{10/00}{meila00a}{Marina Meil\u{a} and Michael I. Jordan}
+\jmlrheading{VV}{YYYY}{page-page}{X/YY}{X/YY}{TODO}{Ryan Curtin et al}
 
 % Short headings should be running head and authors last names
+\ShortHeadings{TODO: short title}{Curtin et al}
 
-\ShortHeadings{Learning with Mixtures of Trees}{Meil\u{a} and Jordan}
 \firstpageno{1}
 
 \begin{document}
 
-\title{Flexible numerical optimization with ensmallen}
+\title{The ensmallen library for flexible numerical optimization}
 
 \author{\name Ryan R. Curtin \email ryan@ratml.org \\
        \addr RelationalAI, Atlanta, GA 30318, USA
        \AND
        \name Marcus Edel\\
-       \addr Free University of Berlin, Berlin, Germany
+       \addr Free University of Berlin, Germany
        \AND
        \name Rahul Ganesh Prabhu \\
-       \addr Birla Institute of Technology and Science Pilani, Pilani Campus, India
+       \addr Birla Institute of Technology and Science Pilani, India
        \AND
        \name Suryoday Basak \\
-       \addr Department of Computer Science and Engineering, The University of
-Texas at Arlington,\\
-       Arlington, TX, USA % blah, can't get it to one line
+       \addr University of Texas at Arlington, USA
        \AND
        \name Zhihao Lou \\
        \addr Epsilon, Chicago, IL, USA
@@ -87,9 +84,8 @@ Texas at Arlington,\\
 \maketitle
 
 \begin{abstract}%   <- trailing '%' for backward compatibility of .sty file
-We introduce the {\tt ensmallen} numerical optimization library, and give an
-overview of its functionality and how it works.
-The library provides a fast and flexible C++ framework
+We overview the {\tt ensmallen} numerical optimization library,
+which provides a flexible C++ framework
 for mathematical optimization of arbitrary user-supplied functions.
 A large set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
@@ -108,34 +104,29 @@ and is distributed under the permissive BSD license.
 \end{abstract}
 
 \begin{keywords}
-  Optimization, numerical optimization, blah blah, math or something
+  Numerical optimization, TODO: more keywords
 \end{keywords}
 
 \section{Introduction}
 \label{sec:introduction}
 
-The problem of numerical optimization is fundamental in the computational
-sciences~\citep{Nocedal_2006}.  In short, this problem is expressed as
-%
-\begin{equation}
-\operatornamewithlimits{argmin}_x f(x)
-\end{equation}
-
-\noindent
+The problem of numerical optimization is in short expressed as
+$\operatornamewithlimits{argmin}_x f(x)$
 where $f(x)$ is a given objective function and $x$ is typically a vector or matrix.
-The ubiquity of this problem gives rise to the proliferation of numerical
-optimization toolkits, such as SciPy~\citep{2019arXiv190710121V},
+Such optimization problems are fundamental and ubiquitous in the computational sciences~\citep{Nocedal_2006},
+leading to the proliferation of numerical optimization toolkits,
+such as SciPy~\citep{2019arXiv190710121V},
 opt++~\citep{meza1994opt++},
-OR-Tools~\citep{ortools}, and numerous others.
+and 
+OR-Tools~\citep{ortools} among many others.
 % CVXOPT~\citep{vandenberghe2010cvxopt},
 %NLopt~\citep{johnson2014nlopt}, Ceres~\citep{ceres-solver},
 %% {\tt fminsearch()} in MATLAB~\cite{matlab_fminsearch},
 %and RBFOpt~\citep{costa2018rbfopt}.
-Optimization for machine learning is generally quite computationally
-intense, and so most frameworks have some integrated optimization
-components.%  This includes the very popular
-%TensorFlow~\citep{tensorflow2015-whitepaper} and
-%PyTorch~\citep{NEURIPS2019_9015} frameworks.
+Furthermore, optimization for many machine learning methods is generally quite computationally
+intensive, and hence most frameworks have an integrated optimization component.
+This includes the frameworks such as TensorFlow~\citep{tensorflow2015-whitepaper} 
+and PyTorch~\citep{NEURIPS2019_9015}.
 %and Caffe~\citep{jia2014caffe}.
 
 %Numerical optimization is generally quite computationally
@@ -148,28 +139,24 @@ components.%  This includes the very popular
 %implementation of specialized solvers.
 
 This necessity for efficient numerical optimization
-motivated us to implement {\tt ensmallen}, originally as part of the
-{\tt mlpack} machine learning library~\citep{mlpack2018}.
-The library provides a large and intuitive {set of pre-built optimizers} for
-optimizing
-{user-defined objective functions} in C++;
+motivated us to implement {\tt ensmallen}.
+The library provides a large and intuitive {set of pre-built optimizers}
+for optimizing {user-defined objective functions} in C++;
 at the time of writing, 46 optimizers are available.
 %The external interface to the optimizers is intuitive.% and matches the ease of use of popular
 %optimization toolkits mentioned above.
 
 Unlike many existing optimization toolkits,
-{\tt ensmallen} explicitly supports numerous different function types for
+{\tt ensmallen} explicitly supports numerous function types for
 optimization.
 %arbitrary, differentiable, separable, categorical, constrained, and semidefinite.
 Custom behavior during optimization can be easily specified via {\it callbacks}.
+This includes TODO.
 Additionally, the underlying framework facilitates the implementation of new optimization techniques,
 which can be contributed upstream and incorporated into the library.
 Table~\ref{tab:comparison} compares {\tt ensmallen}'s functionality.
 %by {\tt ensmallen} and other optimization toolkits.
 
-This paper is a summarized version of a lengthy technical report with
-details~\citep{ensmallen2020}; readers should refer there or to the
-project homepage for more details.
 
 \begin{table}[!t]
 {\footnotesize
@@ -251,8 +238,13 @@ project homepage for more details.
     \end{tabular}
 \vspace*{-0.5em}
 \caption{
-Feature comparison: \CIRCLE~= provides feature,
-\LEFTcircle~= partially provides feature, -~= does not provide feature.
+Feature comparison:
+\CIRCLE~= available,
+\LEFTcircle~= partially available,
+-~= not available.
+% Feature comparison: \CIRCLE~= provides feature,
+% \LEFTcircle~= partially provides feature, -~= does not provide feature.
+%
 %{\it unified framework} indicates if there is a form of generic/unified
 %optimization framework; {\it constraints} and {\it separable functions /
 %batches} indicate support for constrained functions and separable functions;
@@ -345,7 +337,7 @@ regression and usage of the L-BFGS optimizer in {\tt ensmallen}.
 %from the Armadillo linear algebra library~\cite{sanderson2016armadillo},
 %with the corresponding online documentation at
 %\mbox{\url{http://arma.sf.net/docs.html}}
-.
+%.
 }
 \label{fig:lr_function}
 \vspace*{-2em}
@@ -620,8 +612,12 @@ This quick overview introduces {\tt ensmallen}, a C++ numerical optimization
 library that internally uses template metaprogramming to produce efficient code.
 However, there is much more to the library than what is discussed here,
 including callbacks, automatic function inference, clean error reporting, and
-other efficiency improvements.  Interested readers should refer to the technical
-report~\citep{ensmallen2020} for a full exposition.
+other efficiency improvements.
+Further details are provided in the accompanying technical report~\citep{ensmallen2020}.
+
+% This paper is a summarized version of a lengthy technical report with
+% details~\citep{ensmallen2020}; readers should refer there or to the
+% project homepage for more details.
 
 %This report introduces and explains {\tt ensmallen}, a C++ mathematical
 %optimization library that internally uses template metaprogramming to produce efficient
@@ -637,16 +633,14 @@ report~\citep{ensmallen2020} for a full exposition.
 %Future work includes the implementation of additional optimizers
 %and better support for various types of objective functions
 %(such as better support for constrained functions).
-Development is done in an open manner at \mbox{\url{https://github.com/ensmallen/ensmallen}}.
-The library uses the permissive BSD license~\citep{Laurent_2008}.
-Anyone is welcome to help with the effort and contribute code.
+The library is used by open source projects such as
+the {\it mlpack} machine learning library~\citep{mlpack2018}.
+The library uses the permissive BSD license~\citep{Laurent_2008},
+with the development done in an open manner at \mbox{\url{https://github.com/mlpack/ensmallen}}.
+%Anyone is welcome to help with the effort and contribute code.
+
 
 % Acknowledgements should go at the end, before appendices and references
-
-%\acks{We would like to acknowledge support for this project
-%from the National Science Foundation (NSF grant IIS-9988642)
-%and the Multidisciplinary Research Program of the Department
-%of Defense (MURI N00014-00-1-0637). }
 
 \bibliography{refs}
 
