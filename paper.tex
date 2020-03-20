@@ -91,8 +91,8 @@ A large set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
 Several types of objective functions are supported, including differentiable,
 separable, constrained, and categorical objective functions.
-Implementation of a new optimizer requires only one method,
-while a new objective function requires typically only one or two C++ methods.
+Implementation of a new optimizer requires only one function,
+while a new objective function requires typically only one or two C++ functions.
 Through internal use of C++ template metaprogramming, {\tt ensmallen} provides support for arbitrary
 user-supplied callbacks and automatic inference of unsupplied methods without
 any runtime overhead.
@@ -138,6 +138,8 @@ and PyTorch~\citep{NEURIPS2019_9015}.
 %guidance systems~\citep{dueri2016customized}, motivating the development and
 %implementation of specialized solvers.
 
+TODO: briefly list shortcomings of previous approaches; state that ensmallen addresses these shortcomings
+
 This necessity for efficient numerical optimization
 motivated us to implement {\tt ensmallen}.
 The library provides a large and intuitive {set of pre-built optimizers}
@@ -150,12 +152,12 @@ Unlike many existing optimization toolkits,
 {\tt ensmallen} explicitly supports numerous function types for
 optimization.
 %arbitrary, differentiable, separable, categorical, constrained, and semidefinite.
-Custom behavior during optimization can be easily specified via {\it callbacks}.
+Custom behavior during optimization can be easily specified via {\it callback} functions.
 This includes TODO.
 Additionally, the underlying framework facilitates the implementation of new optimization techniques,
 which can be contributed upstream and incorporated into the library.
-Table~\ref{tab:comparison} compares {\tt ensmallen}'s functionality.
-%by {\tt ensmallen} and other optimization toolkits.
+Table~\ref{tab:comparison} compares functionality provided
+by {\tt ensmallen} and other optimization toolkits.
 
 
 \begin{table}[!t]
@@ -293,8 +295,8 @@ the user can provide an implementation of the gradient $f'(x)$,
 which in turn allows a first-order optimizer to be used.
 To allow exploitation of such attributes, the optimizers are built to work with
 many types of objective functions.  {\tt ensmallen} thus has support for
-differentiable, partially differentiable, separable, categorical, and
-constrained functions (including SDPs).  For details
+differentiable, partially differentiable, separable, categorical,
+and constrained functions.  For details
 see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}}.
 
 \begin{figure}[b!]
@@ -540,11 +542,11 @@ The code in Figure~\ref{fig:lr_function} is called \texttt{ensmallen-2}.
 %and for Python via the \texttt{Autograd}~\cite{maclaurin2015autograd} package.~~
 %For GNU Octave we use the \texttt{bfgsmin()} function.
 
-Results for various data sizes are shown in Table~\ref{tab:lbfgs}.  For each
-implementation, L-BFGS was allowed to run for only $10$ iterations.  The
-data used are highly noisy random
-data with a slight linear pattern. % Note that the exact data is not relevant
-%for the experiments here, only its size.
+Results for various data sizes are shown in Table~\ref{tab:lbfgs}.
+For each implementation, L-BFGS was explicitly limited to $10$ iterations.
+The data used are highly noisy random data with a slight linear pattern.
+% Note that the exact data is not relevant
+% for the experiments here, only its size.
 Runtimes are the
 average of 10 runs.
 We find that \texttt{ensmallen-1} and the non-work-sharing {\tt ensmallen-2}
