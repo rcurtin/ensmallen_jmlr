@@ -236,7 +236,7 @@ by {\tt ensmallen} and other optimization toolkits.
 \CIRCLE & - & - & - & \LEFTcircle & - \\
         % Optim.jl isn't the only Julia package for optimization, but it's the
         % one we compare against.
-        & Julia (\texttt{Optim.jl})         &
+        & \texttt{Optim.jl} (Julia) TODO: ref   &
 \CIRCLE & - & - & \CIRCLE & - & - & - & \CIRCLE & - \\
         \cmidrule[1pt]{2-11}
     \end{tabular}
@@ -579,16 +579,22 @@ closely match natural mathematical notation.
 
 %\subsection{Large-Scale Linear Regression Problems}
 
-Next, we consider the empirical performance of {\tt ensmallen} on this task.
-For this task we use the first-order L-BFGS optimizer.
-% implemented in {\tt ensmallen} as the {\tt
-%L\_BFGS} class.
-Using several packages, we implement
-the linear regression objective and gradient.  {\tt ensmallen}
-allows us to share work across the objective function and gradient
-implementations, we denote this as {\tt ensmallen-1}\footnote{This results in a
-more efficient implementation; more details can be found in~\citet{ensmallen2020}.}
-The code in Figure~\ref{fig:lr_function} is called \texttt{ensmallen-2}.
+
+\section{Empirical Comparison}
+
+Table~\ref{tab:lbfgs} compares the performance
+of {\tt ensmallen} against other optimization frameworks
+for the task of optimizing linear regression parameters on various dataset sizes.
+In each framework the provided L-BFGS optimizer is employed
+and explicitly limited to $10$ iterations.
+The data used are highly noisy random data with a slight linear pattern.
+The runtimes are the average of 10 runs.
+
+% allows us to share work across the objective function and gradient
+% implementations, we denote this as {\tt ensmallen-1}\footnote{This results in a
+% more efficient implementation; more details can be found in~\citet{ensmallen2020}.}
+
+
 %We also implement a version with both \texttt{Evaluate()} and
 %\texttt{Gradient()}: \texttt{ensmallen-2}.%  We also use automatic
 %differentiation for Julia via the~
@@ -596,15 +602,10 @@ The code in Figure~\ref{fig:lr_function} is called \texttt{ensmallen-2}.
 %and for Python via the \texttt{Autograd}~\cite{maclaurin2015autograd} package.~~
 %For GNU Octave we use the \texttt{bfgsmin()} function.
 
-Results for various data sizes are shown in Table~\ref{tab:lbfgs}.
-For each implementation, L-BFGS was explicitly limited to $10$ iterations.
-The data used are highly noisy random data with a slight linear pattern.
 % Note that the exact data is not relevant
 % for the experiments here, only its size.
-Runtimes are the
-average of 10 runs.
-We find that \texttt{ensmallen-1} and the non-work-sharing {\tt ensmallen-2}
-are the fastest approaches.
+% We find that \texttt{ensmallen-1} and the non-work-sharing {\tt ensmallen-2}
+% are the fastest approaches.
 %Furthermore, the use of \texttt{EvaluateWithGradient()} yields
 %non-negligible speedup over the \texttt{ensmallen-2} implementation with
 %both the objective and gradient implemented.
@@ -658,7 +659,7 @@ interface for implementation.
 
 %% RESULTS WITH ONLY ONE ROW FOR ENSMALLEN
 %% 
-\begin{table}[t!]
+\begin{table}[b!]
 {\small
 \centering
 %\begin{adjustbox}{scale={0.90}{0.90}}
@@ -683,9 +684,9 @@ interface for implementation.
 %\vspace*{0.25ex}
 \vspace*{-0.4em}
 \caption{
-Runtimes for the linear regression function on various dataset sizes,
-with $n$ indicating the number of samples,
-and $d$ indicating the dimensionality of each sample.
+Runtimes for optimizing linear regression parameters on various dataset sizes,
+where $n$ is the number of samples,
+and $d$ is the dimensionality of each sample.
 %All Julia runs do not count compilation time.
 }
 \label{tab:lbfgs}
