@@ -297,20 +297,20 @@ differentiable, partially differentiable, separable, categorical, and
 constrained functions (including SDPs).  For details
 see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}}.
 
-\begin{figure}[t!]
+\begin{figure}[b!]
 \hrule
 \vspace{1ex}
 \centering
-\begin{minted}[fontsize=\footnotesize]{c++}
+\begin{minted}[fontsize=\scriptsize]{c++}
+
 #include <ensmallen.hpp>
 
-class LinearRegressionFunction
+struct LinearRegressionFunction
 {
- public:
   LinearRegressionFunction(const arma::mat& inX, const arma::vec& inY) : X(inX), y(inY) {}
 
-  double Evaluate(const arma::mat& t)  { return (X * t - y).t() * (X * t - y); }
-  void Gradient(const arma::mat& t, arma::mat& grad)  { grad = 2 * X.t() * (X * t - y); }
+  double Evaluate(const arma::mat& phi)  { return (X * phi - y).t() * (X * phi - y); }
+  void Gradient(const arma::mat& phi, arma::mat& grad)  { grad = 2 * X.t() * (X * phi - y); }
 
   const arma::mat& X; const arma::vec& y;
 };
@@ -321,9 +321,9 @@ int main()
   // ... set the contents of X and y here ...
   ens::LinearRegressionFunction f(X, y);
   ens::L_BFGS optimizer; // create the optimizer with default parameters
-  arma::mat theta_best(X.n_rows, 1, arma::fill::randu);  // initial point (uniform random)
-  optimizer.Optimize(f, theta_best);
-  // at this point theta_best contains the best parameters
+  arma::mat phi_best(X.n_rows, 1, arma::fill::randu);  // initial point (uniform random)
+  optimizer.Optimize(f, phi_best);
+  // at this point phi_best contains the best parameters
 }
 \end{minted}
 \hrule
@@ -348,43 +348,36 @@ regression and usage of the L-BFGS optimizer in {\tt ensmallen}.
 \section{Example Usage}
 \label{sec:linreg_example}
 
-Let us consider the problem of linear regression, where we are
-given a matrix of predictors $\bm X \in \mathcal{R}^{n \times d}$ and a vector
-of responses $\bm y \in \mathcal{R}^n$.  Our task is to find the best linear
-model $\bm \theta \in \mathcal{R}^d$; that is, we want to find
-$\bm \theta^* = \operatornamewithlimits{argmin}_{\bm\theta} f(\bm \theta)$ for
-%
-%\begin{equation}
-$f(\bm \theta) = \| \bm X \bm \theta - \bm y \|^2 = (\bm X \bm \theta - \bm y)^T
-(\bm X \bm \theta - \bm y).$
-%\label{eqn:obj_lr}
-%\end{equation}
-%
-%\noindent
-From this we can derive the gradient %$f'(\bm \theta)$:
-%
-%\begin{equation}
-$f'(\bm \theta) = 2 \bm X^T (\bm X \bm \theta - \bm y).$
-%\label{eqn:grad_lr}
-%\end{equation}
+For demonstration purposes, let us consider the problem of linear regression.
+A matrix of predictors $\bm X \in \mathcal{R}^{n \times d}$
+and a vector of responses $\bm y \in \mathcal{R}^n$ is given.
+The task is to find the best linear model $\bm \Phi \in \mathcal{R}^d$,
+which translates to finding
+$\bm \Phi^* = \operatornamewithlimits{argmin}_{\bm\Phi} f(\bm \Phi)$ for
+$f(\bm \Phi) = \| \bm X \bm \Phi - \bm y \|^2 = (\bm X \bm \Phi - \bm y)^{\top} (\bm X \bm \Phi - \bm y).$
+From this we can derive the gradient
+$f'(\bm \Phi) = 2 \bm X^{\top} (\bm X \bm \Phi - \bm y).$
 
-To find $\bm \theta^*$ using a differentiable
-optimizer\footnote{Typically, in practice, solving a linear regression model can
-be done directly by taking the pseudoinverse.  But,
-this objective is easy to describe and useful for demonstration, so we
-use it here.}, we simply need to provide implementations of $f(\bm \theta)$ and
-$f'(\bm \theta)$.  For a differentiable
-function, only two methods are necessary: {\tt Evaluate()} and {\tt Gradient()}.
-The pre-built L-BFGS optimizer can be used to find $\bm \theta^*$.
-% we just need to provide an implementation of $f(\bm \theta)$ and $f'(\bm \theta)$
+% \footnote{Typically, in practice, solving a linear regression model can
+% be done directly by taking the pseudoinverse.  But,
+% this objective is easy to describe and useful for demonstration, so we
+% use it here.}
+
+To find $\bm \Phi^*$ using a differentiable optimizer,
+we simply need to provide implementations of $f(\bm \Phi)$ and $f'(\bm \Phi)$.
+For a differentiable function, only two methods are necessary:
+{\tt Evaluate()} and {\tt Gradient()}.
+The pre-built L-BFGS optimizer can be used to find $\bm \Phi^*$.
+% we just need to provide an implementation of $f(\bm \Phi)$ and $f'(\bm \Phi)$
 % as L-BFGS requires a differentiable objective function.
 Figure~\ref{fig:lr_function} shows an example implementation.
 %We hold {\tt X} and {\tt y} as members of the
 %{\tt LinearRegressionFunction class},
-%and {\tt theta} is used to represent $\bm \theta$.
+%and {\tt theta} is used to represent $\bm \Phi$.
 Via the use of Armadillo~\citep{sanderson2016armadillo},
 the linear algebra expressions to implement the objective function and gradient
-are readable and closely match the math.%Equations~(\ref{eqn:obj_lr}) and~(\ref{eqn:grad_lr}).
+closely match natural mathematical notation.
+%Equations~(\ref{eqn:obj_lr}) and~(\ref{eqn:grad_lr}).
 
 
 % Details on how to implement and use each type of objective function~
@@ -531,8 +524,8 @@ are readable and closely match the math.%Equations~(\ref{eqn:obj_lr}) and~(\ref{
 %\subsection{Large-Scale Linear Regression Problems}
 
 Next, we consider the empirical performance of {\tt ensmallen} on this task.
-For this task we use the first-order L-BFGS
-optimizer~\cite{liu1989limited}.% implemented in {\tt ensmallen} as the {\tt
+For this task we use the first-order L-BFGS optimizer.
+% implemented in {\tt ensmallen} as the {\tt
 %L\_BFGS} class.
 Using several packages, we implement
 the linear regression objective and gradient.  {\tt ensmallen}
