@@ -77,7 +77,7 @@
        \addr Epsilon, Chicago, IL, USA
        \AND
        \name Conrad Sanderson \\
-       \addr Griffith University, Australia}
+       \addr Data61/CSIRO, Australia, and Griffith University, Australia}
 
 \editor{not currently known}
 
@@ -106,7 +106,7 @@ and is distributed under the permissive BSD license.
 \end{abstract}
 
 \begin{keywords}
-  Numerical optimization, TODO: more keywords
+  Numerical optimization, mathematical optimization, function minimization.
 \end{keywords}
 
 \section{Introduction}
@@ -125,10 +125,12 @@ OR-Tools~\citep{ortools} among many others.
 %NLopt~\citep{johnson2014nlopt}, Ceres~\citep{ceres-solver},
 %% {\tt fminsearch()} in MATLAB~\cite{matlab_fminsearch},
 %and RBFOpt~\citep{costa2018rbfopt}.
-Furthermore, optimization for many machine learning methods is generally quite computationally
-intensive, and hence most frameworks have an integrated optimization component.
-Examples include TensorFlow~\citep{tensorflow2015-whitepaper} 
-and PyTorch~\citep{NEURIPS2019_9015}.
+Furthermore, many frameworks or libraries for specific machine learnining approaches
+have an integrated optimization component.
+Examples inlcude TensorFlow~\citep{tensorflow2015-whitepaper} and PyTorch~\citep{NEURIPS2019_9015}.
+TODO: add ref to libSVM ?
+% optimization for many machine learning methods is generally quite computationally
+% intensive, and hence most frameworks 
 %and Caffe~\citep{jia2014caffe}.
 
 %Numerical optimization is generally quite computationally
@@ -140,26 +142,24 @@ and PyTorch~\citep{NEURIPS2019_9015}.
 %guidance systems~\citep{dueri2016customized}, motivating the development and
 %implementation of specialized solvers.
 
-TODO: briefly list shortcomings of previous approaches; state that ensmallen addresses these shortcomings
-
-This necessity for efficient numerical optimization
-motivated us to implement {\tt ensmallen}.
-The library provides a large and intuitive {set of pre-built optimizers}
-for optimizing {user-defined objective functions} in C++;
-at the time of writing, 46 optimizers are available.
-%The external interface to the optimizers is intuitive.% and matches the ease of use of popular
-%optimization toolkits mentioned above.
-
-Unlike many existing optimization toolkits,
-{\tt ensmallen} explicitly supports numerous function types for
-optimization.
-%arbitrary, differentiable, separable, categorical, constrained, and semidefinite.
-Custom behavior during optimization can be easily specified via {\it callback} functions.
-This includes TODO.
+Even with the abundance of numerical optimization toolkits,
+none of them is flexible enough to support a wide range of use cases.
+This has motivated us to implement the {\tt ensmallen} library,
+which explicitly supports numerous types of user-defined objective functions,
+including non-differentiable, differentiable, separable, categorical, constrained, and semidefinite.
+Furthermore, custom behavior during optimization can be easily specified via {\it callback} functions,
+such as TODO.
 Additionally, the underlying framework facilitates the implementation of new optimization techniques,
 which can be contributed upstream and incorporated into the library.
 Table~\ref{tab:comparison} compares functionality provided
 by {\tt ensmallen} and other optimization toolkits.
+
+The {\tt ensmallen} library also provides a large and intuitive set of pre-built optimizers;
+at the time of writing, 46 optimizers are available.
+This includes many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
+The external interface to the optimizers is intuitive
+and matches the ease of use of popular
+optimization toolkits mentioned above.
 
 
 \begin{table}[!t]
@@ -271,8 +271,8 @@ Feature comparison:
 The task of optimizing an objective function with {\tt ensmallen} is
 straightforward.  The class of objective function (e.g., arbitrary, constrained,
 differentiable, etc.) defines the implementation requirements.
-Each objective function type has a minimal set of methods that must be implemented.
-Typically this is only between one and four methods.
+Each objective function type has a minimal set of methods that must be implemented,
+which typically is only between one and four methods.
 As an example,
 to optimize an objective function $f(x)$ that is differentiable,
 implementations of $f(x)$ and $f'(x)$ are required.
@@ -362,7 +362,7 @@ see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}}.
 
 struct LinearRegressionFunction
 {
-  LinearRegressionFunction(const arma::mat& inX, const arma::vec& inY) : X(inX), y(inY) {}
+  LinearRegressionFunction(const arma::mat& in_X, const arma::vec& in_Y) : X(in_X), y(in_Y) {}
 
   double Evaluate(const arma::mat& phi)  { arma::vec tmp = X * phi - y;  return arma::dot(tmp,tmp); }
   void Gradient(const arma::mat& phi, arma::mat& grad)  { grad = 2 * X.t() * (X * phi - y); }
