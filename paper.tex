@@ -698,12 +698,19 @@ and $d$ is the dimensionality of each sample.
 \section{Conclusion}
 \label{sec:conclusion}
 
-This quick overview introduces {\tt ensmallen}, a C++ numerical optimization
-library that internally uses template metaprogramming to produce efficient code.
-However, there is much more to the library than what is discussed here,
-including callbacks, automatic function inference, clean error reporting, and
-other efficiency improvements.
-Further details are provided in the accompanying technical report~\citep{ensmallen2020}.
+We have introduced the {\tt ensmallen} numerical optimization library,
+which provides a flexible framework for mathematical optimization of user-supplied objective functions in C++.
+Many types of objective functions are supported,
+including non-differentiable, differentiable, separable, constrained, and categorical.
+A large set of pre-built optimizers is provided.
+Implementation of a new objective function typically requires only one or two C++ functions.
+Custom behavior during optimization can be specified via callback functions.
+%The library internally uses template metaprogramming to automatically produce efficient code.
+Further details, such as
+internal use of template metaprogramming for automatic generation of efficient code, 
+automatic function inference,
+clean error reporting, and various approaches for obtaining efficiency
+are discussed in the accompanying technical report~\citep{ensmallen2020}.
 
 % This paper is a summarized version of a lengthy technical report with
 % details~\citep{ensmallen2020}; readers should refer there or to the
@@ -723,11 +730,13 @@ Further details are provided in the accompanying technical report~\citep{ensmall
 %Future work includes the implementation of additional optimizers
 %and better support for various types of objective functions
 %(such as better support for constrained functions).
-The library is used by open source projects such as
-the {\it mlpack} machine learning library~\citep{mlpack2018}.
+The library has been successfuly used by open source projects
+such as the {\it mlpack} machine learning toolkit~\citep{mlpack2018}.
 The library uses the permissive BSD license~\citep{Laurent_2008},
-with the development done in an open manner at \mbox{\url{https://github.com/mlpack/ensmallen}}.
+with the development done in an open manner.
+% at \mbox{\url{https://github.com/mlpack/ensmallen}}.
 %Anyone is welcome to help with the effort and contribute code.
+The source code and documentation and are freely available at \mbox{\url{https://ensmallen.org}}.
 
 
 % Acknowledgements should go at the end, before appendices and references
