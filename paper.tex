@@ -88,7 +88,7 @@ We overview the {\tt ensmallen} numerical optimization library,
 which provides a flexible C++ framework
 for mathematical optimization of user-supplied objective functions.
 Many types of objective functions are supported,
-including non-differentiable, differentiable, separable, constrained, and categorical.
+including \mbox{non-differentiable}, differentiable, separable, constrained, and categorical.
 A large set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
 Implementation of a new optimizer requires only one function,
@@ -129,11 +129,11 @@ TensorFlow~\citep{tensorflow2015-whitepaper},
 PyTorch~\citep{NEURIPS2019_9015}
 and libSVM~\citep{TODO}.
 However, despite the abundance of numerical optimization toolkits,
-none of them is flexible enough to support a wide range of use cases
+none of them is flexible enough to support a wide range of use cases,
 such as various types of objective functions.
 
 \begin{table}[!t]
-{\footnotesize
+\footnotesize
 \centering
     \begin{tabular}{@{} cl*{9}c @{}}
 %  \begin{tabular}{ccccccc}
@@ -158,7 +158,7 @@ such as various types of objective functions.
             % optimization, this is true.
           & \rot{categorical}
             % If any type can be optimized, this is true.mention
-          & \rot{arbitrary types}
+            & \rot{arbitrary precision}
             % If callback support is available.
           & \rot{callbacks} \\
         \cmidrule[1pt]{2-11}
@@ -229,7 +229,6 @@ Feature comparison:
 %for categorical features exists; {\it arbitrary types} mean that arbitrary types
 %can be used for the parameters $x$;
 %{\it callbacks} indicates that user-implementable callback support is available.
-}
 \label{tab:comparison}
 \vspace{-1.5ex}
 }
@@ -241,7 +240,7 @@ Feature comparison:
 
 The abovementioned shortcomings have motivated us to implement the {\tt ensmallen} library,
 which explicitly supports numerous types of user-defined objective functions,
-including non-differentiable, differentiable, separable, categorical, constrained, and semidefinite.
+including \mbox{non-differentiable}, differentiable, separable, categorical, constrained, and semidefinite.
 Furthermore, custom behavior during optimization can be specified via {\it callback} functions,
 for purposes such as printing progress, or inspection and modification of an optimizer's state.
 Additionally, the underlying framework facilitates the implementation of new optimization techniques,
@@ -267,25 +266,27 @@ One of the optimizers for differentiable functions,
 such as L-BFGS~\citep{liu1989limited},
 can then be immediately employed.
 
-%Whenever possible, {\tt ensmallen} will automatically infer methods that are
-%not provided.  For instance, given a separable objective function $f(x) = \sum_i
-%f_i(x)$ where an implementation of $f_i(x)$ is provided (as well as the number
-%of such separable objectives), an implementation of $f(x)$ can be automatically
-%inferred.  This is done at compile-time, and so there is no additional runtime
-%overhead compared to a manual implementation.  C++ template metaprogramming
-%techniques~\citep{alexandrescu2001modern} are
-%internally used to produce efficient code during compilation.
+Whenever possible, {\tt ensmallen} will automatically infer methods that are
+not provided.  For instance, given a separable objective function $f(x) = \sum_i
+f_i(x)$ where an implementation of $f_i(x)$ is provided (as well as the number
+of such separable objectives), an implementation of $f(x)$ can be automatically
+inferred.  This is done at compile-time, and so there is no additional runtime
+overhead compared to a manual implementation.  C++ template metaprogramming
+techniques~\citep{alexandrescu2001modern} are
+internally used to produce efficient code during compilation.
 
-In most cases, $f(x)$ has inherent attributes;
-for example, $f(x)$ might be differentiable.
-The internal framework in {\tt ensmallen} can optionally take advantage of such attributes.
-In the example of a differentiable function $f(x)$,
-the user can provide an implementation of the gradient $f'(x)$,
-which in turn allows a first-order optimizer to be used.
-To allow exploitation of such attributes, the optimizers are built to work with
-many types of objective functions.  {\tt ensmallen} thus has support for
-differentiable, partially differentiable, separable, categorical,
-and constrained functions.  For details
+% In most cases, $f(x)$ has inherent attributes;
+% for example, $f(x)$ might be differentiable.
+% The internal framework in {\tt ensmallen} can optionally take advantage of such attributes.
+% In the example of a differentiable function $f(x)$,
+% the user can provide an implementation of the gradient $f'(x)$,
+% which in turn allows a first-order optimizer to be used.
+% To allow exploitation of such attributes, the optimizers are built to work with
+% many types of objective functions.  {\tt ensmallen} thus has support for
+% differentiable, partially differentiable, separable, categorical,
+% and constrained functions.
+
+For details
 see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}}.
 
 %% ORIGINAL EXAMPLE CODE
@@ -688,7 +689,7 @@ and $d$ is the dimensionality of each sample.
 We have introduced the {\tt ensmallen} numerical optimization library,
 which provides a flexible framework for mathematical optimization of user-supplied objective functions in C++.
 Many types of objective functions are supported,
-including non-differentiable, differentiable, separable, constrained, and categorical.
+including \mbox{non-differentiable}, differentiable, separable, constrained, and categorical.
 A large set of pre-built optimizers is provided.
 Implementation of a new objective function typically requires only one or two C++ functions.
 Custom behavior during optimization can be specified via callback functions.
