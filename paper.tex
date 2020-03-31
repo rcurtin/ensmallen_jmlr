@@ -53,7 +53,7 @@
 \jmlrheading{VV}{YYYY}{page-page}{X/YY}{X/YY}{TODO}{Ryan Curtin et al}
 
 % Short headings should be running head and authors last names
-\ShortHeadings{TODO: short title}{Curtin et al}
+\ShortHeadings{The ensmallen library for flexible numerical optimization}{Curtin et al}
 
 \firstpageno{1}
 
@@ -98,7 +98,7 @@ while a new objective function typically requires only one or two C++ functions.
 % and automatic inference of unsupplied methods without any runtime overhead.
 Custom behavior during optimization can be easily specified via callback functions.
 Empirical comparisons show that {\tt ensmallen}
-outperforms other optimization frameworks (such as Julia and SciPy)
+can outperform other optimization frameworks (such as Julia and SciPy)
 while providing more flexibility.
 The library is available at \url{https://ensmallen.org}
 and is distributed under the permissive BSD license.
@@ -421,16 +421,16 @@ $f'(\bm \Phi) = 2 \bm X^{\top} (\bm X \bm \Phi - \bm y).$
 
 To find $\bm \Phi^*$ using a differentiable optimizer,
 we simply need to provide implementations of $f(\bm \Phi)$ and $f'(\bm \Phi)$.
-For a differentiable function, only two methods are necessary:
+For a differentiable function, {\tt ensmallen} requires only two methods:
 {\tt Evaluate()} and {\tt Gradient()}.
-The pre-built L-BFGS optimizer can be used to find $\bm \Phi^*$.
+The pre-built L-BFGS optimizer can then be used to find~$\bm \Phi^*$.
 % we just need to provide an implementation of $f(\bm \Phi)$ and $f'(\bm \Phi)$
 % as L-BFGS requires a differentiable objective function.
 Figure~\ref{fig:lr_function} shows an example implementation.
 %We hold {\tt X} and {\tt y} as members of the
 %{\tt LinearRegressionFunction class},
 %and {\tt theta} is used to represent $\bm \Phi$.
-Via the use of Armadillo~\citep{sanderson2016armadillo},
+Via the use of the Armadillo library~\citep{sanderson2016armadillo},
 the linear algebra expressions to implement the objective function and gradient
 closely match natural mathematical notation.
 %Equations~(\ref{eqn:obj_lr}) and~(\ref{eqn:grad_lr}).
@@ -665,7 +665,7 @@ interface for implementation.
 %\begin{adjustbox}{scale={0.90}{0.90}}
 \begin{tabular}{lccccc}
 \toprule
-{\em algorithm} & $d$: 100, $n$: 1k & $d$: 100, $n$: 10k & $d$: 100, $n$:
+{\em Framework} & $d$: 100, $n$: 1k & $d$: 100, $n$: 10k & $d$: 100, $n$:
 100k & $d$: 1k, $n$: 100k \\
 \midrule
 \texttt{ensmallen} & {\bf 0.001s} & {\bf 0.009s} & {\bf 0.154s} & {\bf 2.215s} \\
