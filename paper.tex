@@ -93,9 +93,6 @@ A large set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
 Implementation of a new optimizer requires only one function,
 while a new objective function typically requires only one or two C++ functions.
-% Through internal use of C++ template metaprogramming,
-% {\tt ensmallen} provides support for arbitrary user-supplied callback functions
-% and automatic inference of unsupplied methods without any runtime overhead.
 Custom behavior during optimization can be easily specified via callback functions.
 Empirical comparisons show that {\tt ensmallen}
 can outperform other optimization frameworks (such as Julia and SciPy)
@@ -127,40 +124,13 @@ OR-Tools~\citep{ortools} among many others.
 %and RBFOpt~\citep{costa2018rbfopt}.
 Furthermore, many frameworks or libraries for specific machine learnining approaches
 have an integrated optimization component.
-Examples inlcude TensorFlow~\citep{tensorflow2015-whitepaper} and PyTorch~\citep{NEURIPS2019_9015}.
-TODO: add ref to libSVM ?
-% optimization for many machine learning methods is generally quite computationally
-% intensive, and hence most frameworks 
-%and Caffe~\citep{jia2014caffe}.
-
-%Numerical optimization is generally quite computationally
-%intensive---training deep neural networks is dominated by the optimization
-%of the model parameters on the data~\citep{krizhevsky2012imagenet}.  Other
-%algorithms such as logistic regression are also dominated by an optimization
-%process~\citep{zhang2004solving}.
-%Computational bottlenecks occur even in fields as wide-ranging as rocket landing
-%guidance systems~\citep{dueri2016customized}, motivating the development and
-%implementation of specialized solvers.
-
-Even with the abundance of numerical optimization toolkits,
-none of them is flexible enough to support a wide range of use cases.
-This has motivated us to implement the {\tt ensmallen} library,
-which explicitly supports numerous types of user-defined objective functions,
-including non-differentiable, differentiable, separable, categorical, constrained, and semidefinite.
-Furthermore, custom behavior during optimization can be easily specified via {\it callback} functions,
-such as TODO.
-Additionally, the underlying framework facilitates the implementation of new optimization techniques,
-which can be contributed upstream and incorporated into the library.
-Table~\ref{tab:comparison} compares functionality provided
-by {\tt ensmallen} and other optimization toolkits.
-
-The {\tt ensmallen} library also provides a large and intuitive set of pre-built optimizers;
-at the time of writing, 46 optimizers are available.
-This includes many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
-The external interface to the optimizers is intuitive
-and matches the ease of use of popular
-optimization toolkits mentioned above.
-
+Examples include
+TensorFlow~\citep{tensorflow2015-whitepaper},
+PyTorch~\citep{NEURIPS2019_9015}
+and libSVM~\citep{TODO}.
+However, despite the abundance of numerical optimization toolkits,
+none of them is flexible enough to support a wide range of use cases
+such as various types of objective functions.
 
 \begin{table}[!t]
 {\footnotesize
@@ -268,10 +238,27 @@ Feature comparison:
 \section{Functionality}
 \label{sec:overview}
 
-The task of optimizing an objective function with {\tt ensmallen} is
-straightforward.  The class of objective function (e.g., arbitrary, constrained,
-differentiable, etc.) defines the implementation requirements.
-Each objective function type has a minimal set of methods that must be implemented,
+
+The abovementioned shortcomings have motivated us to implement the {\tt ensmallen} library,
+which explicitly supports numerous types of user-defined objective functions,
+including non-differentiable, differentiable, separable, categorical, constrained, and semidefinite.
+Furthermore, custom behavior during optimization can be specified via {\it callback} functions,
+for purposes such as printing progress, or inspection and modification of an optimizer's state.
+Additionally, the underlying framework facilitates the implementation of new optimization techniques,
+which can be contributed upstream and incorporated into the library.
+Table~\ref{tab:comparison} compares functionality provided
+by {\tt ensmallen} and other optimization toolkits.
+
+The {\tt ensmallen} library also provides a large and intuitive set of pre-built optimizers;
+at the time of writing, 46 optimizers are available.
+This includes many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
+The external interface to the optimizers is intuitive
+and matches the ease of use of popular
+optimization toolkits mentioned above.
+
+The task of optimizing an objective function with {\tt ensmallen} is straightforward.
+The type of objective function defines the implementation requirements.
+Each type has a minimal set of methods that must be implemented,
 which typically is only between one and four methods.
 As an example,
 to optimize an objective function $f(x)$ that is differentiable,
@@ -370,7 +357,7 @@ struct LinearRegressionFunction
   const arma::mat& X; const arma::vec& y;
 };
 
-int main()
+int main() 
 {
   arma::mat X; arma::vec y;
   // ... set the contents of X and y here ...
