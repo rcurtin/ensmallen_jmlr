@@ -1,0 +1,37 @@
+ORCA: A Matlab/Octave Toolbox for Ordinal Regression
+4 pages main text; 1+ page refs; no conclusion; has acks
+
+PyOD: A Python Toolbox for Scalable Outlier Detection
+4+ pages main text; short conclusion of page 5; approx 3 pages of refs; has acks;
+
+iNNvestigate Neural Networks!
+4 pages of text; has conclusion; has acks of page 5; 3 pages of refs
+
+AffectiveTweets:  a Weka Package for Analyzing Affectin Tweets
+4 pages of text; no conclusion; short acks on page 5; 2 pages of refs
+
+SMART: An Open Source Data Labeling Platform forSupervised Learning
+4 pages of text; no conclusion; has acks; very dense text: only 2 sections; subsection titles embedded at start of paragraphs; 1 page of refs
+
+Picasso: A Sparse Learning Library for High DimensionalData Analysis inRandPython∗
+4 pages of text; dense; has short conclusion; 1 page of refs
+
+Pyro: Deep Universal Probabilistic Programming
+5 pages of text; no conclusion; has acks; 1 page of refs; refs use acronyms for venues.
+
+TensorLy: Tensor Learning in Python
+affiliations for authors are listed separately via numbers; 4 pages of text; has conclusion; 2 pages of refs
+
+spark-crowd: A Spark Package for Learning fromCrowdsourced Big Data
+4 pages of text; has short conclusion; has acks; 1 page of refs
+
+scikit-multilearn:  A scikit-based Python environment forperforming multi-label classification
+13 pages of text; has conclusion; has long acks; 5 pages of refs; has extra tables after refs
+Submitted 2/17; Revised 1/19; Published 1/19
+
+pyts:  A Python Package for Time Series Classification
+4+ pages of text; has short conclusion (spilling from 4th to 5th page); 1+ pages of refs
+
+Tensor Train Decomposition on TensorFlow (T3F)
+affiliations for authors are listed separately via numbers; 4+ pages of text (table is on 5th page); no conclusion; short acks; 3 pages of refs
+
