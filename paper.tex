@@ -112,9 +112,15 @@ and is distributed under the permissive BSD license.
 The problem of numerical optimization is in short expressed as
 $\operatornamewithlimits{argmin}_x f(x)$
 where $f(x)$ is a given objective function and $x$ is typically a vector or matrix.
-Such optimization problems are fundamental and ubiquitous in the computational sciences~\citep{Nocedal_2006},
-leading to the proliferation of numerical optimization toolkits,
-such as SciPy~\citep{2019arXiv190710121V},
+Such optimization problems are fundamental and ubiquitous in the computational sciences~\citep{Nocedal_2006}.
+Many frameworks or libraries for specific machine learnining approaches
+have an integrated optimization component,
+such as
+TensorFlow~\citep{tensorflow2015-whitepaper},
+PyTorch~\citep{NEURIPS2019_9015}
+and libSVM~\citep{TODO}.
+There are also many general numerical optimization toolkits,
+including SciPy~\citep{2019arXiv190710121V},
 opt++~\citep{meza1994opt++},
 and 
 OR-Tools~\citep{ortools} among many others.
@@ -122,15 +128,34 @@ OR-Tools~\citep{ortools} among many others.
 %NLopt~\citep{johnson2014nlopt}, Ceres~\citep{ceres-solver},
 %% {\tt fminsearch()} in MATLAB~\cite{matlab_fminsearch},
 %and RBFOpt~\citep{costa2018rbfopt}.
-Furthermore, many frameworks or libraries for specific machine learnining approaches
-have an integrated optimization component.
-Examples include
-TensorFlow~\citep{tensorflow2015-whitepaper},
-PyTorch~\citep{NEURIPS2019_9015}
-and libSVM~\citep{TODO}.
-However, despite the abundance of numerical optimization toolkits,
-none of them is flexible enough to support a wide range of use cases,
-such as the many types of objective functions.
+However, such toolkits have limitations in several areas,
+including:
+(i)~types of supported objective functions,
+(ii)~selection of available optimizers,
+(iii)~support for custom behavior via callback functions,
+and
+(iv)~support for various element types for storage.
+
+% none of them is flexible enough to support a wide range of use cases,
+
+The abovementioned shortcomings have motivated us to implement the {\tt ensmallen} library,
+which explicitly supports numerous types of user-defined objective functions,
+including \mbox{non-differentiable}, differentiable, separable, categorical, constrained, and semidefinite.
+Furthermore, custom behavior during optimization can be specified via {callback} functions,
+for purposes such as printing progress, or inspection and modification of an optimizer's state.
+Additionally, the underlying framework facilitates the implementation of new optimization techniques,
+which can be contributed upstream and incorporated into the library.
+Table~\ref{tab:comparison} compares functionality provided
+by {\tt ensmallen} and other optimization toolkits.
+
+The {\tt ensmallen} library also provides a large and intuitive set of pre-built optimizers;
+at the time of writing, 46 optimizers are available.
+This includes many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
+The external interface to the optimizers is intuitive
+and matches the ease of use of popular
+optimization toolkits mentioned above.
+For details see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}}.
+
 
 \begin{table}[!t]
 \footnotesize
@@ -138,29 +163,38 @@ such as the many types of objective functions.
     \begin{tabular}{@{} cl*{9}c @{}}
 %  \begin{tabular}{ccccccc}
         & & \multicolumn{7}{c}{} \\[0.6ex]
+            %
             % If there is any coherent framework at all, this is true.
         & & \rot{unified framework}
+            %
             % If there is any support for constrained optimization, this is
             % true.
           & \rot{constraints}
+            %
             % If the optimization framework can do mini-batch, this is true.
           & \rot{separable functions / batches}
+            % 
             % If I can implement any arbitrary function to be optimized, this is
             % true.
-          & \rot{arbitrary functions}
+          & \rot{general objective functions}
+            %
             % If I can implement any new optimization technique to use, this is
             % true.
-          & \rot{arbitrary optimizers}
+          & \rot{arbitrary optimizers (TODO: not clear)}
+            %
             % If the framework could take advantage of when the gradient is
             % sparse, this is true.
           & \rot{sparse gradients}
+            %
             % If the framework can handle categorical/discrete variables for
             % optimization, this is true.
-          & \rot{categorical}
+          & \rot{categorical / discrete variables}
+            %
             % If any type can be optimized, this is true.mention
-            & \rot{arbitrary precision}
+            & \rot{various element types}
+            %
             % If callback support is available.
-          & \rot{callbacks} \\
+          & \rot{callback functions} \\
         \cmidrule[1pt]{2-11}
         % It might be reasonable to say mlpack categorical support is only
         % partial, but I am not sure exactly where we draw the line.
@@ -237,25 +271,6 @@ Feature comparison:
 \section{Functionality}
 \label{sec:overview}
 
-
-The abovementioned shortcomings have motivated us to implement the {\tt ensmallen} library,
-which explicitly supports numerous types of user-defined objective functions,
-including \mbox{non-differentiable}, differentiable, separable, categorical, constrained, and semidefinite.
-Furthermore, custom behavior during optimization can be specified via {\it callback} functions,
-for purposes such as printing progress, or inspection and modification of an optimizer's state.
-Additionally, the underlying framework facilitates the implementation of new optimization techniques,
-which can be contributed upstream and incorporated into the library.
-Table~\ref{tab:comparison} compares functionality provided
-by {\tt ensmallen} and other optimization toolkits.
-
-The {\tt ensmallen} library also provides a large and intuitive set of pre-built optimizers;
-at the time of writing, 46 optimizers are available.
-This includes many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
-The external interface to the optimizers is intuitive
-and matches the ease of use of popular
-optimization toolkits mentioned above.
-For details see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}}.
-
 The task of optimizing an objective function with {\tt ensmallen} is straightforward.
 The type of objective function defines the implementation requirements.
 Each type has a minimal set of methods that must be implemented,
@@ -274,7 +289,7 @@ of such separable objectives), an implementation of $f(x)$ can be automatically
 inferred.  This is done at compile-time, and so there is no additional runtime
 overhead compared to a manual implementation.  C++ template metaprogramming
 techniques~\citep{alexandrescu2001modern} are
-internally used to produce efficient code during compilation.
+internally used to automatically produce efficient code during compilation.
 
 % In most cases, $f(x)$ has inherent attributes;
 % for example, $f(x)$ might be differentiable.
@@ -387,7 +402,7 @@ regression and usage of the L-BFGS optimizer in {\tt ensmallen}.
 
 % TODO: add basic details on the set of optimizers we implement
 
-\section{Example Usage}
+\section{Example Usage \& Empirical Comparison}
 \label{sec:linreg_example}
 
 For demonstration purposes, let us consider the problem of linear regression.
@@ -419,7 +434,7 @@ Figure~\ref{fig:lr_function} shows an example implementation.
 %and {\tt theta} is used to represent $\bm \Phi$.
 Via the use of the Armadillo library~\citep{sanderson2016armadillo},
 the linear algebra expressions to implement the objective function and gradient
-closely match natural mathematical notation.
+are compact and closely match natural mathematical notation.
 %Equations~(\ref{eqn:obj_lr}) and~(\ref{eqn:grad_lr}).
 
 
@@ -567,8 +582,6 @@ closely match natural mathematical notation.
 %\subsection{Large-Scale Linear Regression Problems}
 
 
-\section{Empirical Comparison}
-
 Table~\ref{tab:lbfgs} compares the performance
 of {\tt ensmallen} against other optimization frameworks
 for the task of optimizing linear regression parameters on various dataset sizes.
@@ -602,9 +615,10 @@ The runtimes are the average of 10 runs.
 %observe that the output of automatic differentiators is not as efficient,
 %especially with \texttt{ForwardDiff.jl}.  We expect this effect to be
 %more pronounced with increasingly complex objective functions.
-This is in part due to {\tt ensmallen}'s ability to produce efficient code via
-template metaprogramming and C++ features, while retaining an intuitive
-interface for implementation.
+
+% This is in part due to {\tt ensmallen}'s ability to produce efficient code via
+% template metaprogramming and C++ features, while retaining an intuitive
+% interface for implementation.
 
 %% RESULTS WITH TWO ROWS FOR ENSMALLEN: ENSMALLEN-1 AND ENSMALLEN-2 VARIANTS
 %% 
