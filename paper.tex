@@ -88,7 +88,7 @@ We overview the {\tt ensmallen} numerical optimization library,
 which provides a flexible C++ framework
 for mathematical optimization of user-supplied objective functions.
 Many types of objective functions are supported,
-including \mbox{non-differentiable}, differentiable, separable, constrained, and categorical.
+including general, differentiable, separable, constrained, and categorical.
 A large set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
 Implementation of a new optimizer requires only one function,
@@ -140,7 +140,7 @@ and
 
 The abovementioned shortcomings have motivated us to implement the {\tt ensmallen} library,
 which explicitly supports numerous types of user-defined objective functions,
-including \mbox{non-differentiable}, differentiable, separable, categorical, constrained, and semidefinite.
+including general, differentiable, separable, categorical, constrained, and semidefinite.
 Custom behavior during optimization can be specified via {callback} functions,
 for purposes such as printing progress, early stopping, or inspection and modification of an optimizer's state.
 A large and intuitive set of pre-built optimizers is also provided;
@@ -150,6 +150,7 @@ The external interface to the optimizers is intuitive
 and matches the ease of use of popular
 optimization toolkits mentioned above.
 For details see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}}.
+Furthermore, {\tt ensmallen} supports 
 Table~\ref{tab:comparison} compares functionality provided
 by {\tt ensmallen} and other optimization toolkits.
 
@@ -237,7 +238,8 @@ by {\tt ensmallen} and other optimization toolkits.
 \CIRCLE & - & - & - & \LEFTcircle & - \\
         % Optim.jl isn't the only Julia package for optimization, but it's the
         % one we compare against.
-        & \texttt{Optim.jl} (Julia) TODO: ref   &
+        % & \texttt{Optim.jl} \citep{mogensen2018optim}   &
+        & \texttt{Optim.jl} (Mogensen et al.~2018) \nocite{mogensen2018optim}   &
 \CIRCLE & \LEFTcircle & - & \CIRCLE & - & - & - & \CIRCLE & \CIRCLE \\
         \cmidrule[1pt]{2-11}
     \end{tabular}
@@ -699,7 +701,7 @@ and $d$ is the dimensionality of each sample.
 We have introduced the {\tt ensmallen} numerical optimization library,
 which provides a flexible framework for mathematical optimization of user-supplied objective functions in C++.
 Many types of objective functions are supported,
-including \mbox{non-differentiable}, differentiable, separable, constrained, and categorical.
+including general, differentiable, separable, constrained, and categorical.
 A large set of pre-built optimizers is provided.
 Implementation of a new objective function typically requires only one or two C++ functions.
 Custom behavior during optimization can be specified via callback functions.
