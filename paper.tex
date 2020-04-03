@@ -113,12 +113,12 @@ The problem of numerical optimization is in short expressed as
 $\operatornamewithlimits{argmin}_x f(x)$
 where $f(x)$ is a given objective function and $x$ is typically a vector or matrix.
 Such optimization problems are fundamental and ubiquitous in the computational sciences~\citep{Nocedal_2006}.
-Many frameworks or libraries for specific machine learnining approaches
+Many frameworks or libraries for specific machine learning approaches
 have an integrated optimization component,
 such as
 TensorFlow~\citep{tensorflow2015-whitepaper},
 PyTorch~\citep{NEURIPS2019_9015}
-and libSVM~\citep{TODO}.
+and LIBSVM~\citep{libsvm2011}.
 There are also many general numerical optimization toolkits,
 including SciPy~\citep{2019arXiv190710121V},
 opt++~\citep{meza1994opt++},
@@ -141,20 +141,17 @@ and
 The abovementioned shortcomings have motivated us to implement the {\tt ensmallen} library,
 which explicitly supports numerous types of user-defined objective functions,
 including \mbox{non-differentiable}, differentiable, separable, categorical, constrained, and semidefinite.
-Furthermore, custom behavior during optimization can be specified via {callback} functions,
+Custom behavior during optimization can be specified via {callback} functions,
 for purposes such as printing progress, early stopping, or inspection and modification of an optimizer's state.
-Additionally, the underlying framework facilitates the implementation of new optimization techniques,
-which can be contributed upstream and incorporated into the library.
-Table~\ref{tab:comparison} compares functionality provided
-by {\tt ensmallen} and other optimization toolkits.
-
-The {\tt ensmallen} library also provides a large and intuitive set of pre-built optimizers;
+A large and intuitive set of pre-built optimizers is also provided;
 at the time of writing, 46 optimizers are available.
 This includes many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
 The external interface to the optimizers is intuitive
 and matches the ease of use of popular
 optimization toolkits mentioned above.
 For details see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}}.
+Table~\ref{tab:comparison} compares functionality provided
+by {\tt ensmallen} and other optimization toolkits.
 
 
 \begin{table}[!t]
@@ -712,6 +709,9 @@ internal use of template metaprogramming for automatic generation of efficient c
 automatic function inference,
 clean error reporting, and various approaches for obtaining efficiency
 are discussed in the accompanying technical report~\citep{ensmallen2020}.
+The underlying framework facilitates the implementation of new optimization techniques,
+which can be contributed and incorporated into the library.
+
 
 % This paper is a summarized version of a lengthy technical report with
 % details~\citep{ensmallen2020}; readers should refer there or to the
@@ -735,9 +735,6 @@ The library has been successfuly used by open source projects
 such as the {\it mlpack} machine learning toolkit~\citep{mlpack2018}.
 The library uses the permissive BSD license~\citep{Laurent_2008},
 with the development done in an open manner.
-The underlying framework facilitates the
-implementation of new optimization techniques,
-which can be contributed and incorporated into the library.
 % at \mbox{\url{https://github.com/mlpack/ensmallen}}.
 %Anyone is welcome to help with the effort and contribute code.
 The source code and documentation and are freely available at \mbox{\url{https://ensmallen.org}}.
