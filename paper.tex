@@ -89,7 +89,7 @@ which provides a flexible C++ framework
 for mathematical optimization of user-supplied objective functions.
 Many types of objective functions are supported,
 including general, differentiable, separable, constrained, and categorical.
-A large set of pre-built optimizers is provided,
+A~large set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
 Implementation of a new optimizer requires only one function,
 while a new objective function typically requires only one or two C++ functions.
@@ -134,7 +134,7 @@ including:
 (ii)~selection of available optimizers,
 (iii)~support for custom behavior via callback functions,
 and
-(iv)~support for various element types for storage.
+(iv)~support for various underlying element and matrix types used by objective functions.
 
 % none of them is flexible enough to support a wide range of use cases,
 
@@ -143,14 +143,19 @@ which explicitly supports numerous types of user-defined objective functions,
 including general, differentiable, separable, categorical, constrained, and semidefinite.
 Custom behavior during optimization can be specified via {callback} functions,
 for purposes such as printing progress, early stopping, or inspection and modification of an optimizer's state.
-A large and intuitive set of pre-built optimizers is also provided;
+A~large set of pre-built optimizers is also provided;
 at the time of writing, 46 optimizers are available.
 This includes many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
 The external interface to the optimizers is intuitive
 and matches the ease of use of popular
-optimization toolkits mentioned above.
-For details see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}}.
-Furthermore, {\tt ensmallen} supports 
+optimization toolkits mentioned above;
+see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}} for more details.
+Furthermore, {\tt ensmallen} supports the use of various underlying element and matrix types.
+This includes single- and double-precision floating point values~\citep{Goldberg_CSUR_1991}, 
+integer values, and data stored as sparse matrices.
+
+
+
 Table~\ref{tab:comparison} compares functionality provided
 by {\tt ensmallen} and other optimization toolkits.
 
@@ -170,15 +175,15 @@ by {\tt ensmallen} and other optimization toolkits.
           & \rot{constraints}
             %
             % If the optimization framework can do mini-batch, this is true.
-          & \rot{separable functions / batches}
+          & \rot{separable fns.~/~batches}
             % 
             % If I can implement any arbitrary function to be optimized, this is
             % true.
-          & \rot{general objective functions}
+          & \rot{general objective fns.}
             %
             % If I can implement any new optimization technique to use, this is
             % true.
-          & \rot{arbitrary optimizers (TODO: not clear)}
+          & \rot{TODO: arbitrary optimizers?}
             %
             % If the framework could take advantage of when the gradient is
             % sparse, this is true.
@@ -186,13 +191,13 @@ by {\tt ensmallen} and other optimization toolkits.
             %
             % If the framework can handle categorical/discrete variables for
             % optimization, this is true.
-          & \rot{categorical / discrete variables}
+          & \rot{categorical variables}
             %
             % If any type can be optimized, this is true.mention
             & \rot{various element types}
             %
             % If callback support is available.
-          & \rot{callback functions} \\
+          & \rot{callback fns.} \\
         \cmidrule[1pt]{2-11}
         % It might be reasonable to say mlpack categorical support is only
         % partial, but I am not sure exactly where we draw the line.
@@ -274,12 +279,21 @@ The task of optimizing an objective function with {\tt ensmallen} is straightfor
 The type of objective function defines the implementation requirements.
 Each type has a minimal set of methods that must be implemented,
 which typically is only between one and four methods.
-As an example,
-to optimize an objective function $f(x)$ that is differentiable,
-implementations of $f(x)$ and $f'(x)$ are required.
+At minimum, 
+an implementation of $f(x)$ is required.
+If $f(x)$ is differentiable,
+then to exploit this characteristic an implementation of $f'(x)$ is also required.
+Using $f'(x)$ generally leads to significant speedups when compared to using only $f(x)$.
 One of the optimizers for differentiable functions,
 such as L-BFGS~\citep{liu1989limited},
 can then be immediately employed.
+
+Not every type of objective function can be used with every type of optimizer.
+For instance, since L-BFGS is for differentiable functions,
+it cannot be used with non-differentiable functions.
+When an optimizer is used with a user-provided objective function,
+an internal mechanism automatically checks the requirements,
+resulting in user-friendly error messages if any required methods are not detected.
 
 Whenever possible, {\tt ensmallen} will automatically infer methods that are
 not provided.  For instance, given a separable objective function $f(x) = \sum_i
@@ -375,11 +389,11 @@ int main()
 {
   arma::mat X; arma::vec y;
   // ... set the contents of X and y here ...
+  arma::mat phi_star(X.n_rows, 1, arma::fill::randu);  // initial point (uniform random)
   ens::LinearRegressionFunction f(X, y);
   ens::L_BFGS optimizer; // create the optimizer with default parameters
-  arma::mat phi_best(X.n_rows, 1, arma::fill::randu);  // initial point (uniform random)
-  optimizer.Optimize(f, phi_best);
-  // at this point phi_best contains the best parameters
+  optimizer.Optimize(f, phi_star);
+  // at this point phi_star contains the optimized parameters
 }
 \end{minted}
 \hrule
@@ -434,6 +448,9 @@ Figure~\ref{fig:lr_function} shows an example implementation.
 Via the use of the Armadillo library~\citep{sanderson2016armadillo},
 the linear algebra expressions to implement the objective function and gradient
 are compact and closely match natural mathematical notation.
+Armadillo efficiently translates the expressions into BLAS and LAPACK function calls,
+allowing exploitation of high-performance libraries such as OpenBLAS and Intel MKL (TODO: refs).
+
 %Equations~(\ref{eqn:obj_lr}) and~(\ref{eqn:grad_lr}).
 
 
@@ -695,14 +712,14 @@ and $d$ is the dimensionality of each sample.
 \end{table}
 
 
-\section{Conclusion}
+\section{Conclusion (TODO: thin this out to avoid repetitions)}
 \label{sec:conclusion}
 
 We have introduced the {\tt ensmallen} numerical optimization library,
 which provides a flexible framework for mathematical optimization of user-supplied objective functions in C++.
 Many types of objective functions are supported,
 including general, differentiable, separable, constrained, and categorical.
-A large set of pre-built optimizers is provided.
+A~large set of pre-built optimizers is provided.
 Implementation of a new objective function typically requires only one or two C++ functions.
 Custom behavior during optimization can be specified via callback functions.
 %The library internally uses template metaprogramming to automatically produce efficient code.
