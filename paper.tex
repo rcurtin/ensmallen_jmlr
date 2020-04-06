@@ -448,8 +448,8 @@ Figure~\ref{fig:lr_function} shows an example implementation.
 Via the use of the Armadillo library~\citep{sanderson2016armadillo},
 the linear algebra expressions to implement the objective function and gradient
 are compact and closely match natural mathematical notation.
-Armadillo efficiently translates the expressions into BLAS and LAPACK function calls,
-allowing exploitation of high-performance libraries such as OpenBLAS and Intel MKL (TODO: refs).
+Armadillo efficiently translates the expressions into standard BLAS and LAPACK function calls~\citep{anderson1999lapack},
+allowing exploitation of high-performance implementations such as the multi-threaded \mbox{OpenBLAS}~\citep{OpenBLAS} and Intel MKL~\citep{IntelMKL} libraries.
 
 %Equations~(\ref{eqn:obj_lr}) and~(\ref{eqn:grad_lr}).
 
