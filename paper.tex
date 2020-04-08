@@ -60,7 +60,7 @@
 \begin{document}
 
 %% TODO: remove \small and [WORK-IN-PROGRESS] before submission
-\title{\small The ensmallen library for flexible numerical optimization [WORK-IN-PROGRESS]}
+\title{\small [WORK-IN-PROGRESS] The ensmallen library for flexible numerical optimization }
 
 % compact format for list of authors and affiliations
 \author{%
@@ -460,7 +460,7 @@ Figure~\ref{fig:lr_function} shows an example implementation.
 %{\tt LinearRegressionFunction class},
 %and {\tt theta} is used to represent $\bm \Phi$.
 Via the use of the Armadillo library~\citep{sanderson2016armadillo},
-the linear algebra expressions to implement the objective function and gradient
+the linear algebra expressions to implement the objective function and its gradient
 are compact and closely match natural mathematical notation.
 Armadillo efficiently translates the expressions into standard BLAS and LAPACK function calls~\citep{anderson1999lapack},
 allowing easy exploitation of high-performance implementations such as the multi-threaded \mbox{OpenBLAS}~\citep{OpenBLAS} and Intel MKL~\citep{IntelMKL} libraries.
@@ -735,13 +735,8 @@ Unlike other frameworks, {\tt ensmallen} supports many types of objective functi
 provides a large set of pre-built optimizers,
 supports custom behavior via callback functions,
 and supports various underlying element and matrix types used by objective functions.
-Implementation of an objective function typically requires only one or two C++ functions.
-Furthermore, empirical comparisons indicate that {\tt ensmallen} can outperform other optimization frameworks.
-
-Further details, such as internal use of template metaprogramming
-for automatic generation of efficient code, automatic function inference,
-clean error reporting, and various approaches for obtaining efficiency
-are discussed in the accompanying technical report~\citep{ensmallen2020}.
+% Implementation of an objective function typically requires only one or two C++ functions.
+% Furthermore, empirical comparisons indicate that {\tt ensmallen} can outperform other optimization frameworks.
 The underlying framework facilitates the implementation of new optimization techniques,
 which can be contributed and incorporated into the library.
 
@@ -750,6 +745,12 @@ such as the {\it mlpack} machine learning toolkit~\citep{mlpack2018}.
 The library uses the permissive BSD license~\citep{Laurent_2008},
 with the development done in an open and collaborative manner.
 The source code and documentation and are freely available at \mbox{\url{https://ensmallen.org}}.
+
+Further details, such as internal use of template metaprogramming
+for automatic generation of efficient code, automatic function inference,
+clean error reporting, and various approaches for obtaining efficiency
+are discussed in the accompanying technical report~\citep{ensmallen2020}.
+
 
 % Acknowledgements should go at the end, before appendices and references
 
