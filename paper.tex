@@ -91,8 +91,8 @@ Many types of objective functions are supported,
 including general, differentiable, separable, constrained, and categorical.
 A~large set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
-Implementation of a new optimizer requires only one function,
-while a new objective function typically requires only one or two C++ functions.
+Optimization of an objective function typically requires supplying only one or two C++ functions,
+while implementing a new optimizer requires only one function.
 Custom behavior during optimization can be easily specified via callback functions.
 Empirical comparisons show that {\tt ensmallen}
 can outperform other optimization frameworks (such as Julia and SciPy)
@@ -153,10 +153,7 @@ see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}} for
 Furthermore, {\tt ensmallen} supports the use of various underlying element and matrix types.
 This includes single- and double-precision floating point values~\citep{Goldberg_CSUR_1991}, 
 integer values, and data stored as sparse matrices.
-
-
-
-Table~\ref{tab:comparison} compares functionality provided
+Table~\ref{tab:comparison} compares the functionality provided
 by {\tt ensmallen} and other optimization toolkits.
 
 
