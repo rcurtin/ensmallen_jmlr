@@ -61,23 +61,36 @@
 
 \title{The ensmallen library for flexible numerical optimization}
 
-\author{\name Ryan R. Curtin \email ryan@ratml.org \\
-       \addr RelationalAI, Atlanta, GA 30318, USA
-       \AND
-       \name Marcus Edel\\
-       \addr Free University of Berlin, Germany
-       \AND
-       \name Rahul Ganesh Prabhu \\
-       \addr Birla Institute of Technology and Science Pilani, India
-       \AND
-       \name Suryoday Basak \\
-       \addr University of Texas at Arlington, USA
-       \AND
-       \name Zhihao Lou \\
-       \addr Epsilon, Chicago, IL, USA
-       \AND
-       \name Conrad Sanderson \\
-       \addr Data61/CSIRO, Australia, and Griffith University, Australia}
+% compact format for list of authors and affiliations
+\author{%
+  \name Ryan R. Curtin \hfill \addr RelationalAI, Atlanta, GA 30318, USA\\
+  \name Marcus Edel \hfill \addr Free University of Berlin, Germany\\
+  \name Rahul Ganesh Prabhu \hfill \addr Birla Institute of Technology and Science Pilani, India\\
+  \name Suryoday Basak \hfill \addr University of Texas at Arlington, USA\\
+  \name Zhihao Lou \hfill \addr Epsilon, Chicago, IL, USA\\
+  \name Conrad Sanderson \hfill \addr Data61/CSIRO, Australia, and Griffith University, Australia%
+  }
+
+% %% default space wasting format for list of authors and affiliations
+% \author{%
+%   \name Ryan R. Curtin \email ryan@ratml.org \\
+%   \addr RelationalAI, Atlanta, GA 30318, USA
+%   \AND
+%   \name Marcus Edel\\
+%   \addr Free University of Berlin, Germany
+%   \AND
+%   \name Rahul Ganesh Prabhu \\
+%   \addr Birla Institute of Technology and Science Pilani, India
+%   \AND
+%   \name Suryoday Basak \\
+%   \addr University of Texas at Arlington, USA
+%   \AND
+%   \name Zhihao Lou \\
+%   \addr Epsilon, Chicago, IL, USA
+%   \AND
+%   \name Conrad Sanderson \\  %% NOTE: DO NOT LIST MY EMAIL ADDRESS; I DON'T WANT SPAM OR JOB OFFERS FROM AMAZON
+%   \addr Data61/CSIRO, Australia, and Griffith University, Australia%
+%   }
 
 \editor{not currently known}
 
@@ -92,7 +105,7 @@ including general, differentiable, separable, constrained, and categorical.
 A~large set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
 Optimization of an objective function typically requires supplying only one or two C++ functions,
-while implementing a new optimizer requires only one function.
+while implementing a new optimizer requires only one function. %% TODO: is this mentioned in the main text?
 Custom behavior during optimization can be easily specified via callback functions.
 Empirical comparisons show that {\tt ensmallen}
 can outperform other optimization frameworks (such as Julia and SciPy)
@@ -446,7 +459,7 @@ Via the use of the Armadillo library~\citep{sanderson2016armadillo},
 the linear algebra expressions to implement the objective function and gradient
 are compact and closely match natural mathematical notation.
 Armadillo efficiently translates the expressions into standard BLAS and LAPACK function calls~\citep{anderson1999lapack},
-allowing exploitation of high-performance implementations such as the multi-threaded \mbox{OpenBLAS}~\citep{OpenBLAS} and Intel MKL~\citep{IntelMKL} libraries.
+allowing easy exploitation of high-performance implementations such as the multi-threaded \mbox{OpenBLAS}~\citep{OpenBLAS} and Intel MKL~\citep{IntelMKL} libraries.
 
 %Equations~(\ref{eqn:obj_lr}) and~(\ref{eqn:grad_lr}).
 
