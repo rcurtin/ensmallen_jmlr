@@ -59,7 +59,8 @@
 
 \begin{document}
 
-\title{The ensmallen library for flexible numerical optimization}
+%% TODO: remove \small and [WORK-IN-PROGRESS] before submission
+\title{\small The ensmallen library for flexible numerical optimization [WORK-IN-PROGRESS]}
 
 % compact format for list of authors and affiliations
 \author{%
@@ -270,19 +271,16 @@ Feature comparison:
 \CIRCLE~= available,
 \LEFTcircle~= partially available,
 -~= not available.
-% Feature comparison: \CIRCLE~= provides feature,
-% \LEFTcircle~= partially provides feature, -~= does not provide feature.
-%
-%{\it unified framework} indicates if there is a form of generic/unified
-%optimization framework; {\it constraints} and {\it separable functions /
-%batches} indicate support for constrained functions and separable functions;
-%{\it arbitrary functions} means arbitrary objective functions are easily
-%implemented; {\it arbitrary optimizers} means arbitrary optimizers are easily
-%implemented; {\it sparse gradient} indicates that the framework can natively
-%take advantage of sparse gradients; {\it categorical} refers to if support
-%for categorical features exists; {\it arbitrary types} mean that arbitrary types
-%can be used for the parameters $x$;
-%{\it callbacks} indicates that user-implementable callback support is available.
+% {\it unified framework} indicates if there is a form of generic/unified
+% optimization framework; {\it constraints} and {\it separable functions /
+% batches} indicate support for constrained functions and separable functions;
+% {\it arbitrary functions} means arbitrary objective functions are easily
+% implemented; {\it arbitrary optimizers} means arbitrary optimizers are easily
+% implemented; {\it sparse gradient} indicates that the framework can natively
+% take advantage of sparse gradients; {\it categorical} refers to if support
+% for categorical features exists; {\it arbitrary types} mean that arbitrary types
+% can be used for the parameters $x$;
+% {\it callbacks} indicates that user-implementable callback support is available.
 \label{tab:comparison}
 \vspace{-1.5ex}
 }
@@ -728,52 +726,30 @@ and $d$ is the dimensionality of each sample.
 \end{table}
 
 
-\section{Conclusion (TODO: thin this out to avoid repetitions)}
+\section{Conclusion}
 \label{sec:conclusion}
 
-We have introduced the {\tt ensmallen} numerical optimization library,
-which provides a flexible framework for mathematical optimization of user-supplied objective functions in C++.
-Many types of objective functions are supported,
-including general, differentiable, separable, constrained, and categorical.
-A~large set of pre-built optimizers is provided.
-Implementation of a new objective function typically requires only one or two C++ functions.
-Custom behavior during optimization can be specified via callback functions.
-%The library internally uses template metaprogramming to automatically produce efficient code.
-Further details, such as
-internal use of template metaprogramming for automatic generation of efficient code, 
-automatic function inference,
+The {\tt ensmallen} numerical optimization provides a flexible framework
+for optimization of user-supplied objective functions in C++.
+Unlike other frameworks, {\tt ensmallen} supports many types of objective functions,
+provides a large set of pre-built optimizers,
+supports custom behavior via callback functions,
+and supports various underlying element and matrix types used by objective functions.
+Implementation of an objective function typically requires only one or two C++ functions.
+Furthermore, empirical comparisons indicate that {\tt ensmallen} can outperform other optimization frameworks.
+
+Further details, such as internal use of template metaprogramming
+for automatic generation of efficient code, automatic function inference,
 clean error reporting, and various approaches for obtaining efficiency
 are discussed in the accompanying technical report~\citep{ensmallen2020}.
 The underlying framework facilitates the implementation of new optimization techniques,
 which can be contributed and incorporated into the library.
 
-
-% This paper is a summarized version of a lengthy technical report with
-% details~\citep{ensmallen2020}; readers should refer there or to the
-% project homepage for more details.
-
-%This report introduces and explains {\tt ensmallen}, a C++ mathematical
-%optimization library that internally uses template metaprogramming to produce efficient
-%code.  The library is flexible, with support for numerous types of objective
-%functions, and many implemented optimizers.  It is easy to both implement
-%objective functions to optimize with {\tt ensmallen}, and to write new
-%optimizers for inclusion in the library.  {\tt ensmallen} has support for
-%automatic function inference and callbacks.  Because this is done through
-%template metaprogramming, there is no additional runtime overhead.
-%Empirical results show that {\tt ensmallen} outperforms other toolkits~
-%for similar tasks.
-
-%Future work includes the implementation of additional optimizers
-%and better support for various types of objective functions
-%(such as better support for constrained functions).
 The library has been successfuly used by open source projects
 such as the {\it mlpack} machine learning toolkit~\citep{mlpack2018}.
 The library uses the permissive BSD license~\citep{Laurent_2008},
-with the development done in an open manner.
-% at \mbox{\url{https://github.com/mlpack/ensmallen}}.
-%Anyone is welcome to help with the effort and contribute code.
+with the development done in an open and collaborative manner.
 The source code and documentation and are freely available at \mbox{\url{https://ensmallen.org}}.
-
 
 % Acknowledgements should go at the end, before appendices and references
 
