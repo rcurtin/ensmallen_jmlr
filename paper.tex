@@ -105,8 +105,7 @@ Many types of objective functions are supported,
 including general, differentiable, separable, constrained, and categorical.
 A~large set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
-Optimization of an objective function typically requires supplying only one or two C++ functions,
-while implementing a new optimizer requires only one function. %% TODO: is this mentioned in the main text?
+Optimization of an objective function typically requires supplying only one or two C++ functions.
 Custom behavior during optimization can be easily specified via callback functions.
 Empirical comparisons show that {\tt ensmallen}
 can outperform other optimization frameworks (such as Julia and SciPy)
@@ -128,12 +127,13 @@ $\operatornamewithlimits{argmin}_x f(x)$
 where $f(x)$ is a given objective function and $x$ is typically a vector or matrix.
 Such optimization problems are fundamental and ubiquitous in the computational sciences~\citep{Nocedal_2006}.
 Many frameworks or libraries for specific machine learning approaches
-have an integrated optimization component,
+have an integrated optimization component for distinct and limited use cases,
 such as
 TensorFlow~\citep{tensorflow2015-whitepaper},
 PyTorch~\citep{NEURIPS2019_9015}
 and LibSVM~\citep{libsvm2011}.
-There are also many general numerical optimization toolkits,
+There are also many general numerical optimization toolkits
+aimed at supporting wider use cases,
 including SciPy~\citep{2019arXiv190710121V},
 opt++~\citep{meza1994opt++},
 and 
@@ -142,7 +142,7 @@ OR-Tools~\citep{ortools} among many others.
 %NLopt~\citep{johnson2014nlopt}, Ceres~\citep{ceres-solver},
 %% {\tt fminsearch()} in MATLAB~\cite{matlab_fminsearch},
 %and RBFOpt~\citep{costa2018rbfopt}.
-However, such toolkits have limitations in several areas,
+However, such toolkits still have limitations in several areas,
 including:
 (i)~types of supported objective functions,
 (ii)~selection of available optimizers,
@@ -159,14 +159,15 @@ Custom behavior during optimization can be specified via {callback} functions,
 for purposes such as printing progress, early stopping, or inspection and modification of an optimizer's state.
 A~large set of pre-built optimizers is also provided;
 at the time of writing, 46 optimizers are available.
-This includes many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
+This includes many variants of Stochastic Gradient Descent \cite{TODO}
+and Quasi-Newton optimizers \cite{TODO}.
 The external interface to the optimizers is intuitive
 and matches the ease of use of popular
 optimization toolkits mentioned above;
 see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}} for more details.
 Furthermore, {\tt ensmallen} supports the use of various underlying element and matrix types.
 This includes single- and double-precision floating point values~\citep{Goldberg_CSUR_1991}, 
-integer values, and data stored as sparse matrices.
+integer values, and data compactly stored as sparse matrices.
 Table~\ref{tab:comparison} compares the functionality provided
 by {\tt ensmallen} and other optimization toolkits.
 
@@ -293,14 +294,13 @@ The task of optimizing an objective function with {\tt ensmallen} is straightfor
 The type of objective function defines the implementation requirements.
 Each type has a minimal set of methods that must be implemented,
 which typically is only between one and four methods.
-At minimum, 
-an implementation of $f(x)$ is required.
-If $f(x)$ is differentiable,
-then to exploit this characteristic an implementation of $f'(x)$ is also required.
-Using $f'(x)$ generally leads to significant speedups when compared to using only $f(x)$.
-One of the optimizers for differentiable functions,
+Apart from the baseline requirement of an implementation of $f(x)$,
+characteristics of $f(x)$ can be exploited through additional functions.
+For example, if $f(x)$ is differentiable,
+an implementation of $f'(x)$ can be used to speed up the optimisation process.
+One of the available optimizers for differentiable functions,
 such as L-BFGS~\citep{liu1989limited},
-can then be immediately employed.
+can be immediately employed.
 
 Not every type of objective function can be used with every type of optimizer.
 For instance, since L-BFGS is for differentiable functions,
@@ -614,6 +614,7 @@ allowing easy exploitation of high-performance implementations such as the multi
 
 Table~\ref{tab:lbfgs} compares the performance
 of {\tt ensmallen} against other optimization frameworks
+(including some that use automatic differentiation)
 for the task of optimizing linear regression parameters on various dataset sizes.
 In each framework the provided L-BFGS optimizer is employed
 and explicitly limited to $10$ iterations.
@@ -734,11 +735,12 @@ for optimization of user-supplied objective functions in C++.
 Unlike other frameworks, {\tt ensmallen} supports many types of objective functions,
 provides a large set of pre-built optimizers,
 supports custom behavior via callback functions,
-and supports various underlying element and matrix types used by objective functions.
+and can handle various underlying element and matrix types used by objective functions.
 % Implementation of an objective function typically requires only one or two C++ functions.
 % Furthermore, empirical comparisons indicate that {\tt ensmallen} can outperform other optimization frameworks.
 The underlying framework facilitates the implementation of new optimization techniques,
 which can be contributed and incorporated into the library.
+%% implementing a new optimizer requires only one function
 
 The library has been successfuly used by open source projects
 such as the {\it mlpack} machine learning toolkit~\citep{mlpack2018}.
