@@ -108,8 +108,7 @@ including many variants of Stochastic Gradient Descent and Quasi-Newton optimize
 Optimization of an objective function typically requires supplying only one or two C++ functions.
 Custom behavior during optimization can be easily specified via callback functions.
 Empirical comparisons show that {\tt ensmallen}
-can outperform other optimization frameworks (such as Julia and SciPy)
-while providing more flexibility.
+can outperform other optimization frameworks while providing more functionality.
 The library is available at \url{https://ensmallen.org}
 and is distributed under the permissive BSD license.
 
@@ -149,6 +148,8 @@ including:
 (iii)~support for custom behavior via callback functions,
 and
 (iv)~support for various underlying element and matrix types used by objective functions.
+% and
+% (v)~a coherent or reusable framework.
 
 % none of them is flexible enough to support a wide range of use cases,
 
@@ -159,8 +160,8 @@ Custom behavior during optimization can be specified via {callback} functions,
 for purposes such as printing progress, early stopping, or inspection and modification of an optimizer's state.
 A~large set of pre-built optimizers is also provided;
 at the time of writing, 46 optimizers are available.
-This includes many variants of Stochastic Gradient Descent \cite{TODO}
-and Quasi-Newton optimizers \cite{TODO}.
+This includes many variants of Stochastic Gradient Descent \citep{Ruder_2016}
+and Quasi-Newton optimizers \citep{zhu1997algorithm}.
 The external interface to the optimizers is intuitive
 and matches the ease of use of popular
 optimization toolkits mentioned above;
@@ -175,96 +176,96 @@ by {\tt ensmallen} and other optimization toolkits.
 \begin{table}[!t]
 \footnotesize
 \centering
-    \begin{tabular}{@{} cl*{9}c @{}}
+    \begin{tabular}{@{} cl*{8}c @{}}
 %  \begin{tabular}{ccccccc}
-        & & \multicolumn{7}{c}{} \\[0.6ex]
+          & 
+          & \multicolumn{6}{c}{} \\[0.6ex]
+          & 
             %
-            % If there is any coherent framework at all
-        & & \rot{\scriptsize unified framework}
+            % If I can implement any new optimization technique to use
+          & \rot{\scriptsize arbitrary optimizers (?)}
             %
             % If there is any support for constrained optimization
           & \rot{\scriptsize constraints}
             %
             % If the optimization framework can do mini-batch
-          & \rot{\scriptsize separable fns.~/~batches (TODO)}
+          & \rot{\scriptsize batches}  % NOTE: originally as: separable fns.~/~batches
             % 
             % If I can implement any arbitrary function to be optimized
           & \rot{\scriptsize general objective fns.}
-            %
-            % If I can implement any new optimization technique to use
-          & \rot{\scriptsize arbitrary optimizers (TODO)}
             %
             % the framework could take advantage of when the gradient is sparse
           & \rot{\scriptsize sparse gradients}
             %
             % the framework can handle categorical/discrete variables
-          & \rot{categorical variables}
+          & \rot{\scriptsize categorical variables}
             %
             % If any type can be optimized, this is true
             & \rot{\scriptsize various element types}
             %
             % If callback support is available.
           & \rot{\scriptsize callback fns.} \\
-        \cmidrule[1pt]{2-11}
+        \cmidrule[1pt]{2-10}
         % 
         % It might be reasonable to say ensmallen categorical support is only partial,
         % but I am not sure exactly where we draw the line.
         & \texttt{ensmallen}
-        & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE\\
+        & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE\\
         %
         % The Shogun toolbox has a fairly nice framework, but it doesn't support
         % sparse gradients or categorical features.  It also does not appear to
         % support constraints, arbitrary types, or callbacks.
         & Shogun \citep{sonnenburg2010shogun}
-        & \CIRCLE & - & \CIRCLE & \CIRCLE & \CIRCLE & - & - & - & - \\
+        & \CIRCLE & - & \CIRCLE & \CIRCLE & - & - & - & - \\
         % 
         % VW doesn't appear to have any framework whatsoever and the code is
         % awful, but it does support batches and categorical features.
         & VW \citep{Langford2007VW}
-        & - & - & \CIRCLE  & - & - & - & \CIRCLE & - & - \\
+        & - & - & \CIRCLE  & - & - & \CIRCLE & - & - \\
         % 
         % TensorFlow has a few optimizers, but they are all SGD-related.  You
         % can write most objectives easily (but some very hard), and categorical
         % support might be possible but would not be easy.
         & TensorFlow \citep{tensorflow2015-whitepaper}
-        & \CIRCLE & -  & \CIRCLE  & \LEFTcircle & - & \LEFTcircle & - & \LEFTcircle & - \\
+        & - & -  & \CIRCLE  & \LEFTcircle & \LEFTcircle & - & \LEFTcircle & - \\
         % 
         % PyTorch is increasingly popular these days.  It has Caffe integrated
         % into itself, but this refers to the actual PyTorch optimizer parts.
         & PyTorch \citep{NEURIPS2019_9015}
-        & \CIRCLE & - & \CIRCLE & \LEFTcircle & \LEFTcircle & - & - & \LEFTcircle & - \\
+        & \LEFTcircle & - & \CIRCLE & \LEFTcircle & - & - & \LEFTcircle & - \\
         % 
         %% Caffe has a nice framework, but it's only for SGD-related optimizers.
         %% I think I could write a new one, but it is not the easiest thing in
         %% the world.
         %% & Caffe \citep{jia2014caffe}
-        %% & \CIRCLE & -  & \CIRCLE & \LEFTcircle & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
+        %% & \LEFTcircle & \CIRCLE & -  & \CIRCLE & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
         %
         % Keras is restricted to neural networks and SGD-like optimizers.
         % I don't know that it is possible to easily write a new optimizer.
         & Keras \citep{chollet2015keras}
-        & \CIRCLE & -  & \CIRCLE & \LEFTcircle & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
+        & \LEFTcircle & -  & \CIRCLE & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
         % 
         % sklearn has a few optimizer frameworks, but they are all in different
         % places and have somewhat different support.
         & scikit-learn \citep{pedregosa2011scikit}
-        & \LEFTcircle & - & \LEFTcircle  & \LEFTcircle & - & - & - & \LEFTcircle & - \\
+        & - & - & \LEFTcircle  & \LEFTcircle & - & - & \LEFTcircle & - \\
         % 
         % scipy has some nice optimizer framework but it does not support
         % batches or some of the more complex functionality.  And you can't
         % write your own.
         & SciPy \citep{2019arXiv190710121V}
-        & \CIRCLE & \CIRCLE  & -  & \CIRCLE & - & - & - & \LEFTcircle & \CIRCLE \\
+        & - & \CIRCLE  & -  & \CIRCLE & - & - & \LEFTcircle & \CIRCLE \\
         % 
         % MATLAB is very similar to scipy.
-        & MATLAB            & \CIRCLE & \CIRCLE & - & \CIRCLE & - & - & - & \LEFTcircle & - \\
+        & MATLAB
+        & - & \CIRCLE & - & \CIRCLE & - & - & \LEFTcircle & - \\
         % 
         % Optim.jl isn't the only Julia package for optimization, but it's the
         % one we compare against.
         % & \texttt{Optim.jl} \citep{mogensen2018optim}   &
         & \texttt{Optim.jl} (Mogensen et al.~2018) \nocite{mogensen2018optim}
-        & \CIRCLE & \LEFTcircle & - & \CIRCLE & - & - & - & \CIRCLE & \CIRCLE \\
-        \cmidrule[1pt]{2-11}
+        & - & \LEFTcircle & - & \CIRCLE & - & - & \CIRCLE & \CIRCLE \\
+        \cmidrule[1pt]{2-10}
     \end{tabular}
 \vspace*{-0.5em}
 \caption{
@@ -286,6 +287,123 @@ Feature comparison:
 \vspace{-1.5ex}
 }
 \end{table}
+
+
+% \begin{table}[!t]
+% \footnotesize
+% \centering
+%     \begin{tabular}{@{} cl*{9}c @{}}
+% %  \begin{tabular}{ccccccc}
+%         & & \multicolumn{7}{c}{} \\[0.6ex]
+%             %
+%             % If there is any coherent framework at all
+%         & & \rot{\scriptsize unified framework}
+%             %
+%             % If there is any support for constrained optimization
+%           & \rot{\scriptsize constraints}
+%             %
+%             % If the optimization framework can do mini-batch
+%           & \rot{\scriptsize batches}  % NOTE: originally as: separable fns.~/~batches
+%             % 
+%             % If I can implement any arbitrary function to be optimized
+%           & \rot{\scriptsize general objective fns.}
+%             %
+%             % If I can implement any new optimization technique to use
+%           & \rot{\scriptsize arbitrary optimizers (TODO)}
+%             %
+%             % the framework could take advantage of when the gradient is sparse
+%           & \rot{\scriptsize sparse gradients}
+%             %
+%             % the framework can handle categorical/discrete variables
+%           & \rot{\scriptsize categorical variables}
+%             %
+%             % If any type can be optimized, this is true
+%             & \rot{\scriptsize various element types}
+%             %
+%             % If callback support is available.
+%           & \rot{\scriptsize callback fns.} \\
+%         \cmidrule[1pt]{2-11}
+%         % 
+%         % It might be reasonable to say ensmallen categorical support is only partial,
+%         % but I am not sure exactly where we draw the line.
+%         & \texttt{ensmallen}
+%         & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE\\
+%         %
+%         % The Shogun toolbox has a fairly nice framework, but it doesn't support
+%         % sparse gradients or categorical features.  It also does not appear to
+%         % support constraints, arbitrary types, or callbacks.
+%         & Shogun \citep{sonnenburg2010shogun}
+%         & \CIRCLE & - & \CIRCLE & \CIRCLE & \CIRCLE & - & - & - & - \\
+%         % 
+%         % VW doesn't appear to have any framework whatsoever and the code is
+%         % awful, but it does support batches and categorical features.
+%         & VW \citep{Langford2007VW}
+%         & - & - & \CIRCLE  & - & - & - & \CIRCLE & - & - \\
+%         % 
+%         % TensorFlow has a few optimizers, but they are all SGD-related.  You
+%         % can write most objectives easily (but some very hard), and categorical
+%         % support might be possible but would not be easy.
+%         & TensorFlow \citep{tensorflow2015-whitepaper}
+%         & \CIRCLE & -  & \CIRCLE  & \LEFTcircle & - & \LEFTcircle & - & \LEFTcircle & - \\
+%         % 
+%         % PyTorch is increasingly popular these days.  It has Caffe integrated
+%         % into itself, but this refers to the actual PyTorch optimizer parts.
+%         & PyTorch \citep{NEURIPS2019_9015}
+%         & \CIRCLE & - & \CIRCLE & \LEFTcircle & \LEFTcircle & - & - & \LEFTcircle & - \\
+%         % 
+%         %% Caffe has a nice framework, but it's only for SGD-related optimizers.
+%         %% I think I could write a new one, but it is not the easiest thing in
+%         %% the world.
+%         %% & Caffe \citep{jia2014caffe}
+%         %% & \CIRCLE & -  & \CIRCLE & \LEFTcircle & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
+%         %
+%         % Keras is restricted to neural networks and SGD-like optimizers.
+%         % I don't know that it is possible to easily write a new optimizer.
+%         & Keras \citep{chollet2015keras}
+%         & \CIRCLE & -  & \CIRCLE & \LEFTcircle & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
+%         % 
+%         % sklearn has a few optimizer frameworks, but they are all in different
+%         % places and have somewhat different support.
+%         & scikit-learn \citep{pedregosa2011scikit}
+%         & \LEFTcircle & - & \LEFTcircle  & \LEFTcircle & - & - & - & \LEFTcircle & - \\
+%         % 
+%         % scipy has some nice optimizer framework but it does not support
+%         % batches or some of the more complex functionality.  And you can't
+%         % write your own.
+%         & SciPy \citep{2019arXiv190710121V}
+%         & \CIRCLE & \CIRCLE  & -  & \CIRCLE & - & - & - & \LEFTcircle & \CIRCLE \\
+%         % 
+%         % MATLAB is very similar to scipy.
+%         & MATLAB
+%         & \CIRCLE & \CIRCLE & - & \CIRCLE & - & - & - & \LEFTcircle & - \\
+%         % 
+%         % Optim.jl isn't the only Julia package for optimization, but it's the
+%         % one we compare against.
+%         % & \texttt{Optim.jl} \citep{mogensen2018optim}   &
+%         & \texttt{Optim.jl} (Mogensen et al.~2018) \nocite{mogensen2018optim}
+%         & \CIRCLE & \LEFTcircle & - & \CIRCLE & - & - & - & \CIRCLE & \CIRCLE \\
+%         \cmidrule[1pt]{2-11}
+%     \end{tabular}
+% \vspace*{-0.5em}
+% \caption{
+% Feature comparison:
+% \CIRCLE~= available,
+% \LEFTcircle~= partially available,
+% -~= not available.
+% % {\it unified framework} indicates if there is a form of generic/unified
+% % optimization framework; {\it constraints} and {\it separable functions /
+% % batches} indicate support for constrained functions and separable functions;
+% % {\it arbitrary functions} means arbitrary objective functions are easily
+% % implemented; {\it arbitrary optimizers} means arbitrary optimizers are easily
+% % implemented; {\it sparse gradient} indicates that the framework can natively
+% % take advantage of sparse gradients; {\it categorical} refers to if support
+% % for categorical features exists; {\it arbitrary types} mean that arbitrary types
+% % can be used for the parameters $x$;
+% % {\it callbacks} indicates that user-implementable callback support is available.
+% \label{tab:comparison}
+% \vspace{-1.5ex}
+% }
+% \end{table}
 
 \section{Functionality}
 \label{sec:overview}
