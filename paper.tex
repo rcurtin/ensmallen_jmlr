@@ -422,7 +422,7 @@ can be immediately employed.
 
 Not every type of objective function can be used with every type of optimizer.
 For instance, since L-BFGS is for differentiable functions,
-it cannot be used with non-differentiable functions.
+it cannot be used with non-differentiable (general) functions.
 When an optimizer is used with a user-provided objective function,
 an internal mechanism automatically checks the requirements,
 resulting in user-friendly error messages if any required methods are not detected.
@@ -732,8 +732,10 @@ allowing easy exploitation of high-performance implementations such as the multi
 
 Table~\ref{tab:lbfgs} compares the performance
 of {\tt ensmallen} against other optimization frameworks
-(including some that use automatic differentiation)
 for the task of optimizing linear regression parameters on various dataset sizes.
+We use the {\tt bfgsmin()} function from GNU Octave \citep{octave}.
+We also use automatic differentiation for Julia via {\tt ForwardDiff.jl} \citep{RevelsLubinPapamarkou2016}
+and for Python via Autograd \citep{maclaurin2015autograd}.
 In each framework the provided L-BFGS optimizer is employed
 and explicitly limited to $10$ iterations.
 The data used are highly noisy random data with a slight linear pattern.
@@ -821,13 +823,13 @@ The runtimes are the average of 10 runs.
 \texttt{ensmallen} & {\bf 0.001s} & {\bf 0.009s} & {\bf 0.154s} & {\bf 2.215s} \\
 % Dropped for space and awful performance
 %\texttt{Calculus.jl} & 0.172s & 0.960s & 27.428s & 2535.507s \\
-\texttt{Optim.jl} & 0.006s & 0.030s & 0.337s & 4.271s \\
-\texttt{scipy} & 0.003s & 0.017s & 0.202s & 2.729s \\
-\texttt{bfgsmin} (GNU Octave) & 0.071s & 0.859s & 23.220s & 2859.81s\\
+\texttt{Optim.jl}  & 0.006s & 0.030s & 0.337s & 4.271s \\
+\texttt{SciPy} & 0.003s & 0.017s & 0.202s & 2.729s \\
+\texttt{bfgsmin()} (GNU Octave) & 0.071s & 0.859s & 23.220s & 2859.81s\\
 % It's possible to tune ForwardDiff.jl a bit, but it doesn't give significant
 % speedups to make it competitive and it really makes the code ugly.
 \texttt{ForwardDiff.jl} & 0.497s & 1.159s & 4.996s & 603.106s \\
-\texttt{autograd} (Python) & 0.007s & 0.026s & 0.210s & 2.673s \\
+\texttt{Autograd} & 0.007s & 0.026s & 0.210s & 2.673s \\
 \bottomrule
 \end{tabular}
 %\end{adjustbox}
