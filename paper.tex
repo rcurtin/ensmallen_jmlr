@@ -146,10 +146,9 @@ including:
 (i)~types of supported objective functions,
 (ii)~selection of available optimizers,
 (iii)~support for custom behavior via callback functions,
-and
 (iv)~support for various underlying element and matrix types used by objective functions.
-% and
-% (v)~a coherent or reusable framework.
+and
+(v)~ease of extensibility, to facilitate adding more optimizers.
 
 % none of them is flexible enough to support a wide range of use cases,
 
@@ -157,7 +156,8 @@ The abovementioned shortcomings have motivated us to implement the {\tt ensmalle
 which explicitly supports numerous types of user-defined objective functions,
 including general, differentiable, separable, categorical, constrained, and semidefinite.
 Custom behavior during optimization can be specified via {callback} functions,
-for purposes such as printing progress, early stopping, or inspection and modification of an optimizer's state.
+for purposes such as printing progress, early stopping, inspection and modification of an optimizer's state,
+and debugging new optimizers.
 A~large set of pre-built optimizers is also provided;
 at the time of writing, 46 optimizers are available.
 This includes many variants of Stochastic Gradient Descent \citep{Ruder_2016}
@@ -169,6 +169,7 @@ see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}} for
 Furthermore, {\tt ensmallen} supports the use of various underlying element and matrix types.
 This includes single- and double-precision floating point values~\citep{Goldberg_CSUR_1991}, 
 integer values, and data compactly stored as sparse matrices.
+Lastly, {\tt ensmallen} provides a framework to easily allow the implementation of new optimization techniques.
 Table~\ref{tab:comparison} compares the functionality provided
 by {\tt ensmallen} and other optimization toolkits.
 
