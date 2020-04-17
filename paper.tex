@@ -104,7 +104,7 @@ for mathematical optimization of user-supplied objective functions.
 Many types of objective functions are supported,
 including general, differentiable, separable, constrained, and categorical.
 A~diverse set of pre-built optimizers is provided,
-including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
+including Quasi-Newton optimizers and many variants of Stochastic Gradient Descent.
 The underlying framework facilitates the implementation of new optimizers.
 Optimization of an objective function typically requires supplying only one or two {C++} functions.
 Custom behavior during optimization can be easily specified via callback functions.
@@ -161,8 +161,10 @@ for purposes such as printing progress, early stopping, inspection and modificat
 and debugging of new optimizers.
 A~diverse set of pre-built optimizers is provided;
 at the time of writing, 46 optimizers are available.
-This includes many variants of Stochastic Gradient Descent \citep{Ruder_2016}
-and Quasi-Newton optimizers \citep{mokhtari2018}.
+This includes 
+simulated annealing \citep{kirkpatrick1983optimization},
+several Quasi-Newton optimizers \citep{liu1989limited,mokhtari2018},
+and many variants of Stochastic Gradient Descent \citep{Ruder_2016}.
 The external interface to the optimizers is intuitive
 and matches the ease of use of popular
 optimization toolkits mentioned above;
@@ -538,7 +540,7 @@ int main()
 regression and usage of the L-BFGS optimizer.
 The optimizer can be easily changed by replacing
 {\tt ens::L\_BFGS} with another optimizer,
-such as {\tt ens::GradientDescent}
+such as {\tt ens::GradientDescent},
 or {\tt ens::SA} which implements simulated annealing \citep{kirkpatrick1983optimization}.
 %The online documentation for all ensmallen optimizers
 %is at \mbox{\url{https://ensmallen.org/docs.html}}.
