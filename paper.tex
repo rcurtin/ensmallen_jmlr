@@ -103,9 +103,10 @@ which provides a flexible C++ framework
 for mathematical optimization of user-supplied objective functions.
 Many types of objective functions are supported,
 including general, differentiable, separable, constrained, and categorical.
-A~large set of pre-built optimizers is provided,
+A~diverse set of pre-built optimizers is provided,
 including many variants of Stochastic Gradient Descent and Quasi-Newton optimizers.
-Optimization of an objective function typically requires supplying only one or two C++ functions.
+The underlying framework facilitates the implementation of new optimizers.
+Optimization of an objective function typically requires supplying only one or two {C++} functions.
 Custom behavior during optimization can be easily specified via callback functions.
 Empirical comparisons show that {\tt ensmallen}
 can outperform other optimization frameworks while providing more functionality.
@@ -148,7 +149,7 @@ including:
 (iii)~support for custom behavior via callback functions,
 (iv)~support for various underlying element and matrix types used by objective functions.
 and
-(v)~ease of extensibility, to facilitate adding more optimizers.
+(v)~extensibility, to facilitate adding more optimizers.
 
 % none of them is flexible enough to support a wide range of use cases,
 
@@ -157,7 +158,7 @@ which explicitly supports numerous types of user-defined objective functions,
 including general, differentiable, separable, categorical, constrained, and semidefinite.
 Custom behavior during optimization can be specified via {callback} functions,
 for purposes such as printing progress, early stopping, inspection and modification of an optimizer's state,
-and debugging new optimizers.
+and debugging of new optimizers.
 A~large set of pre-built optimizers is also provided;
 at the time of writing, 46 optimizers are available.
 This includes many variants of Stochastic Gradient Descent \citep{Ruder_2016}
@@ -183,7 +184,7 @@ by {\tt ensmallen} and other optimization toolkits.
           & \multicolumn{6}{c}{} \\[0.6ex]
           & 
             %
-            % If I can implement any new optimization technique to use
+            % If I can easily implement any new optimization technique to use
           & \rot{\scriptsize easily extensible}
             %
             % If there is any support for constrained optimization
@@ -192,7 +193,7 @@ by {\tt ensmallen} and other optimization toolkits.
             % If the optimization framework can do mini-batch
           & \rot{\scriptsize batches}  % NOTE: originally as: separable fns.~/~batches
             % 
-            % If I can implement any arbitrary function to be optimized
+            % If I can implement any arbitrary (general) function to be optimized
           & \rot{\scriptsize general objective fns.}
             %
             % the framework could take advantage of when the gradient is sparse
@@ -425,7 +426,7 @@ For instance, since L-BFGS is for differentiable functions,
 it cannot be used with non-differentiable (general) functions.
 When an optimizer is used with a user-provided objective function,
 an internal mechanism automatically checks the requirements,
-resulting in user-friendly error messages if any required methods are not detected.
+resulting in user-friendly error messages at compile-time if any required methods are not detected.
 
 Whenever possible, {\tt ensmallen} will automatically infer methods that are
 not provided.  For instance, given a separable objective function $f(x) = \sum_i
@@ -503,16 +504,19 @@ internally used to automatically produce efficient code during compilation.
 \hrule
 \vspace{1ex}
 \centering
-\begin{minted}[fontsize=\scriptsize]{c++}
+\begin{minted}[fontsize=\footnotesize]{c++}
 
 #include <ensmallen.hpp>
 
-struct LinearRegressionFunction
+struct LinearRegressionFn
 {
-  LinearRegressionFunction(const arma::mat& in_X, const arma::vec& in_Y) : X(in_X), y(in_Y) {}
+  LinearRegressionFn(const arma::mat& in_X, const arma::vec& in_Y) : X(in_X), y(in_Y) {}
 
-  double Evaluate(const arma::mat& phi)  { arma::vec tmp = X * phi - y;  return arma::dot(tmp,tmp); }
-  void Gradient(const arma::mat& phi, arma::mat& grad)  { grad = 2 * X.t() * (X * phi - y); }
+  double Evaluate(const arma::mat& phi)
+    { const arma::vec tmp = X * phi - y;  return arma::dot(tmp,tmp); }
+  
+  void Gradient(const arma::mat& phi, arma::mat& grad)
+    { grad = 2 * X.t() * (X * phi - y); }
 
   const arma::mat& X; const arma::vec& y;
 };
@@ -522,16 +526,20 @@ int main()
   arma::mat X; arma::vec y;
   // ... set the contents of X and y here ...
   arma::mat phi_star(X.n_rows, 1, arma::fill::randu);  // initial point (uniform random)
-  ens::LinearRegressionFunction f(X, y);
-  ens::L_BFGS optimizer; // create the optimizer with default parameters
+  ens::LinearRegressionFn f(X, y);
+  ens::L_BFGS optimizer; // create an optimizer object with default parameters
   optimizer.Optimize(f, phi_star);
   // at this point phi_star contains the optimized parameters
 }
 \end{minted}
 \hrule
 \vspace*{-0.5em}
-\caption{An example implementation of an objective function class for linear
-regression and usage of the L-BFGS optimizer in {\tt ensmallen}.
+\caption{Example implementation of an objective function class for linear
+regression and usage of the L-BFGS optimizer.
+The optimizer can be easily changed by replacing
+{\tt ens::L\_BFGS} with another optimizer,
+such as {\tt ens::GradientDescent}
+or {\tt ens::SA} which implements simulated annealing \citep{kirkpatrick1983optimization}.
 %The online documentation for all ensmallen optimizers
 %is at \mbox{\url{https://ensmallen.org/docs.html}}.
 %The {\tt arma::mat} and {arma::vec} types are~
@@ -739,6 +747,8 @@ In each framework the provided L-BFGS optimizer is employed
 and explicitly limited to $10$ iterations.
 The data used are highly noisy random data with a slight linear pattern.
 The runtimes are the average of 10 runs.
+We ran our code on a MacBook Pro i7 2018 with 16GB RAM running macOS 10.14
+with clang 1000.10.44.2, Julia version 1.0.1, Python 2.7.15, and Octave 4.4.1.
 
 % allows us to share work across the objective function and gradient
 % implementations, we denote this as {\tt ensmallen-1}\footnote{This results in a
@@ -824,7 +834,7 @@ The runtimes are the average of 10 runs.
 %\texttt{Calculus.jl} & 0.172s & 0.960s & 27.428s & 2535.507s \\
 \texttt{Optim.jl}  & 0.006s & 0.030s & 0.337s & 4.271s \\
 \texttt{SciPy} & 0.003s & 0.017s & 0.202s & 2.729s \\
-\texttt{bfgsmin()} (GNU Octave) & 0.071s & 0.859s & 23.220s & 2859.81s\\
+\texttt{bfgsmin()} & 0.071s & 0.859s & 23.220s & 2859.81s\\
 % It's possible to tune ForwardDiff.jl a bit, but it doesn't give significant
 % speedups to make it competitive and it really makes the code ugly.
 \texttt{ForwardDiff.jl} & 0.497s & 1.159s & 4.996s & 603.106s \\
@@ -851,7 +861,7 @@ and $d$ is the dimensionality of each sample.
 The {\tt ensmallen} numerical optimization provides a flexible framework
 for optimization of user-supplied objective functions in C++.
 Unlike other frameworks, {\tt ensmallen} supports many types of objective functions,
-provides a large set of pre-built optimizers,
+provides a diverse set of pre-built optimizers,
 supports custom behavior via callback functions,
 and can handle various underlying element and matrix types used by objective functions.
 % Implementation of an objective function typically requires only one or two C++ functions.
