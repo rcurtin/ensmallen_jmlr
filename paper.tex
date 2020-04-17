@@ -35,8 +35,6 @@
 \usepackage{array}
 \usepackage{wasysym}
 
-% \renewcommand{\baselinestretch}{1.1}\small\normalsize
-
 % Definitions of handy macros can go here
 
 \newcommand{\dataset}{{\cal D}}
@@ -59,8 +57,7 @@
 
 \begin{document}
 
-%% TODO: remove \small and [WORK-IN-PROGRESS] before submission
-\title{\small [WORK-IN-PROGRESS] The ensmallen library for flexible numerical optimization }
+\title{The ensmallen library for flexible numerical optimization }
 
 % compact format for list of authors and affiliations
 \author{%
@@ -72,7 +69,7 @@
   \name Conrad Sanderson \hfill \addr Data61/CSIRO, Australia, and Griffith University, Australia%
   }
 
-% %% default space wasting format for list of authors and affiliations
+% %% super space wasting format for list of authors and affiliations
 % \author{%
 %   \name Ryan R. Curtin \email ryan@ratml.org \\
 %   \addr RelationalAI, Atlanta, GA 30318, USA
@@ -134,7 +131,7 @@ PyTorch~\citep{PyTorch_NeurIPS_2019}
 and LibSVM~\citep{libsvm2011}.
 There are also many general numerical optimization toolkits
 aimed at supporting a wider range of use cases,
-including SciPy~\citep{2019arXiv190710121V},
+including SciPy~\citep{SciPy_arXiv_2019},
 opt++~\citep{meza1994opt++},
 and 
 OR-Tools~\citep{ortools} among many others.
@@ -391,22 +388,12 @@ $f(\bm \Phi) = \| \bm X \bm \Phi - \bm y \|^2.$
 From this we can derive the gradient
 $f'(\bm \Phi) = 2 \bm X^{\top} (\bm X \bm \Phi - \bm y).$
 
-% \footnote{Typically, in practice, solving a linear regression model can
-% be done directly by taking the pseudoinverse.  But,
-% this objective is easy to describe and useful for demonstration, so we
-% use it here.}
-
 To find $\bm \Phi^*$ using a differentiable optimizer,
 we simply need to provide implementations of $f(\bm \Phi)$ and $f'(\bm \Phi)$.
 For a differentiable function, {\tt ensmallen} requires only two methods:
 {\tt Evaluate()} and {\tt Gradient()}.
 The pre-built L-BFGS optimizer can then be used to find~$\bm \Phi^*$.
-% we just need to provide an implementation of $f(\bm \Phi)$ and $f'(\bm \Phi)$
-% as L-BFGS requires a differentiable objective function.
 Figure~\ref{fig:lr_function} shows an example implementation.
-%We hold {\tt X} and {\tt y} as members of the
-%{\tt LinearRegressionFunction class},
-%and {\tt theta} is used to represent $\bm \Phi$.
 Via the use of the Armadillo library~\citep{sanderson2016armadillo},
 the linear algebra expressions to implement the objective function and its gradient
 are compact and closely match natural mathematical notation.
@@ -424,7 +411,6 @@ The data used are highly noisy random data with a slight linear pattern.
 The runtimes are the average of 10 runs.
 The experiments were ran on a MacBook Pro i7 (2018 model),
 with clang 1000.10.44.2, Julia version 1.0.1, Python 2.7.15, and Octave 4.4.1.
-%The results show that {\tt ensmallen} outperforms the other optimization frameworks.
 The results show that {\tt ensmallen} obtains the lowest run times.
 
 %% RESULTS WITH ONLY ONE ROW FOR ENSMALLEN
