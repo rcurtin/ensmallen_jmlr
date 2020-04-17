@@ -133,7 +133,7 @@ TensorFlow~\citep{tensorflow2015-whitepaper},
 PyTorch~\citep{NEURIPS2019_9015}
 and LibSVM~\citep{libsvm2011}.
 There are also many general numerical optimization toolkits
-aimed at supporting wider use cases,
+aimed at supporting a wider range of use cases,
 including SciPy~\citep{2019arXiv190710121V},
 opt++~\citep{meza1994opt++},
 and 
@@ -159,13 +159,13 @@ including general, differentiable, separable, categorical, constrained, and semi
 Custom behavior during optimization can be specified via {callback} functions,
 for purposes such as printing progress, early stopping, inspection and modification of an optimizer's state,
 and debugging of new optimizers.
-A~diverse set of pre-built optimizers is provided;
+A~large and diverse set of pre-built optimizers is provided;
 at the time of writing, 46 optimizers are available.
 This includes 
 simulated annealing \citep{kirkpatrick1983optimization},
 several Quasi-Newton optimizers \citep{liu1989limited,mokhtari2018},
 and many variants of Stochastic Gradient Descent \citep{Ruder_2016}.
-The external interface to the optimizers is intuitive
+The user-facing interface to the optimizers is intuitive
 and matches the ease of use of popular
 optimization toolkits mentioned above;
 see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}} for more details.
@@ -419,25 +419,46 @@ Apart from the baseline requirement of an implementation of $f(x)$,
 characteristics of $f(x)$ can be exploited through additional functions.
 For example, if $f(x)$ is differentiable,
 an implementation of $f'(x)$ can be used to speed up the optimisation process.
-One of the available optimizers for differentiable functions,
+One of the pre-built optimizers for differentiable functions,
 such as L-BFGS~\citep{liu1989limited},
 can be immediately employed.
 
-Not every type of objective function can be used with every type of optimizer.
-For instance, since L-BFGS is for differentiable functions,
-it cannot be used with non-differentiable (general) functions.
-When an optimizer is used with a user-provided objective function,
-an internal mechanism automatically checks the requirements,
-resulting in user-friendly error messages at compile-time if any required methods are not detected.
+Whenever possible, {\tt ensmallen} will automatically infer methods
+that are not provided.
+For example, given a separable objective function
+$f(x) = \sum_i f_i(x)$
+where an implementation of $f_i(x)$ is provided
+(as well as the number of such separable objectives),
+an implementation of $f(x)$ can be automatically inferred.
+This is done at compile-time, and so there is no additional runtime
+overhead compared to a manual implementation.
+C++ template metaprogramming techniques~\citep{Abrahams_2004,alexandrescu2001modern}
+are internally used to automatically produce efficient code during compilation.
 
-Whenever possible, {\tt ensmallen} will automatically infer methods that are
-not provided.  For instance, given a separable objective function $f(x) = \sum_i
-f_i(x)$ where an implementation of $f_i(x)$ is provided (as well as the number
-of such separable objectives), an implementation of $f(x)$ can be automatically
-inferred.  This is done at compile-time, and so there is no additional runtime
-overhead compared to a manual implementation.  C++ template metaprogramming
-techniques~\citep{Abrahams_2004,alexandrescu2001modern} are
-internally used to automatically produce efficient code during compilation.
+To implement a new optimizer,
+only one function needs to be defined inside a class,
+which can then expect an external implementation of $f(x)$ to be available.
+If the optimizer is restricted to handling differentiable functions,
+it can also expect an implementation of $f'(x)$ to be available.
+
+% Not every type of objective function can be used with every type of optimizer.
+% For instance, since L-BFGS is for differentiable functions,
+% it cannot be used with non-differentiable (general) functions.
+
+When an optimizer (either pre-built or new) is used with a user-provided objective function,
+an internal mechanism automatically checks the requirements for that optimizer
+(eg., presence of an implementation of $f'(x)$),
+resulting in user-friendly error messages at compile-time
+if any required methods are not detected.
+For example, as L-BFGS is suited for differentiable functions,
+a compile-time error will be printed if an attempt is made
+to use it with non-differentiable (general) functions.
+
+% When implementing an optimizer, we can
+% assume that the given function to be optimized meets the required assumptions of the optimizers,
+% and encode those requirements as compile-time checks (via {\tt static\_assert});
+% this can provide much easier-to-understand error messages than typical compiler output for templated C++ code.
+
 
 % In most cases, $f(x)$ has inherent attributes;
 % for example, $f(x)$ might be differentiable.
@@ -749,7 +770,7 @@ In each framework the provided L-BFGS optimizer is employed
 and explicitly limited to $10$ iterations.
 The data used are highly noisy random data with a slight linear pattern.
 The runtimes are the average of 10 runs.
-We ran our code on a MacBook Pro i7 2018 with 16GB RAM running macOS 10.14
+The experiments were ran on a MacBook Pro i7 2018 with 16GB RAM running macOS 10.14
 with clang 1000.10.44.2, Julia version 1.0.1, Python 2.7.15, and Octave 4.4.1.
 
 % allows us to share work across the objective function and gradient
@@ -865,18 +886,18 @@ for optimization of user-supplied objective functions in C++.
 Unlike other frameworks, {\tt ensmallen} supports many types of objective functions,
 provides a diverse set of pre-built optimizers,
 supports custom behavior via callback functions,
-and can handle various underlying element and matrix types used by objective functions.
+and handles various element and matrix types used by objective functions.
 % Implementation of an objective function typically requires only one or two C++ functions.
 % Furthermore, empirical comparisons indicate that {\tt ensmallen} can outperform other optimization frameworks.
 The underlying framework facilitates the implementation of new optimization techniques,
-which can be contributed and incorporated into the library.
+which can be contributed for inclusion into the library.
 %% implementing a new optimizer requires only one function
 
 The library has been successfuly used by open source projects
 such as the {\it mlpack} machine learning toolkit~\citep{mlpack2018}.
 The library uses the permissive BSD license~\citep{Laurent_2008},
 with the development done in an open and collaborative manner.
-The source code and documentation and are freely available at \mbox{\url{https://ensmallen.org}}.
+The source code and documentation are freely available at \mbox{\url{https://ensmallen.org}}.
 
 Further details, such as internal use of template metaprogramming
 for automatic generation of efficient code, automatic function inference,
