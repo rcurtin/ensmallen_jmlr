@@ -419,12 +419,13 @@ for the task of optimizing linear regression parameters on various dataset sizes
 We use the {\tt bfgsmin()} function from GNU Octave \citep{octave}.
 We also use automatic differentiation for Julia via {\tt ForwardDiff.jl} \citep{RevelsLubinPapamarkou2016}
 and for Python via Autograd \citep{maclaurin2015autograd}.
-In each framework the provided L-BFGS optimizer is employed
-and explicitly limited to $10$ iterations.
+In each framework the provided L-BFGS optimizer is explicitly limited to $10$ iterations.
 The data used are highly noisy random data with a slight linear pattern.
 The runtimes are the average of 10 runs.
-The experiments were ran on a MacBook Pro i7 2018 with 16GB RAM running macOS 10.14
+The experiments were ran on a MacBook Pro i7 (2018 model),
 with clang 1000.10.44.2, Julia version 1.0.1, Python 2.7.15, and Octave 4.4.1.
+%The results show that {\tt ensmallen} outperforms the other optimization frameworks.
+The results show that {\tt ensmallen} obtains the lowest run times.
 
 %% RESULTS WITH ONLY ONE ROW FOR ENSMALLEN
 %% 
