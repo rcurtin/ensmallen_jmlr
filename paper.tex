@@ -35,7 +35,12 @@
 \usepackage{array}
 \usepackage{wasysym}
 
-\renewcommand{\baselinestretch}{1.1}\small\normalsize
+% \renewcommand{\baselinestretch}{1.1}\small\normalsize
+
+% Definitions of handy macros can go here
+
+\newcommand{\dataset}{{\cal D}}
+\newcommand{\fracpartial}[2]{\frac{\partial #1}{\partial  #2}}
 
 \newcolumntype{R}[2]{%
   >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
@@ -44,13 +49,8 @@
 }
 \newcommand*\rot{\multicolumn{1}{R{30}{2.0em}}}
 
-% Definitions of handy macros can go here
-
-\newcommand{\dataset}{{\cal D}}
-\newcommand{\fracpartial}[2]{\frac{\partial #1}{\partial  #2}}
-
 % Heading arguments are {volume}{year}{pages}{date submitted}{date published}{paper id}{author-full-names}
-\jmlrheading{VV}{YYYY}{page-page}{X/YY}{X/YY}{TODO}{Ryan Curtin et al}
+\jmlrheading{VV}{YYYY}{page-page}{X/YY}{X/YY}{TODO}{Ryan Curtin, Marcus Edel, Rahul Ganesh Prabhu, Suryoday Basak, Zhihao Lou, Conrad Sanderson}
 
 % Short headings should be running head and authors last names
 \ShortHeadings{The ensmallen library for flexible numerical optimization}{Curtin, Edel, Prabhu, Basak, Lou and Sanderson}
@@ -64,7 +64,7 @@
 
 % compact format for list of authors and affiliations
 \author{%
-  \name Ryan R. Curtin \hfill \addr RelationalAI, Atlanta, GA 30318, USA\\
+  \name Ryan R. Curtin \hfill \email ryan@ratml.org ~|~ \addr RelationalAI, Atlanta, GA 30318, USA\\
   \name Marcus Edel \hfill \addr Free University of Berlin, Germany\\
   \name Rahul Ganesh Prabhu \hfill \addr Birla Institute of Technology and Science Pilani, India\\
   \name Suryoday Basak \hfill \addr University of Texas at Arlington, USA\\
@@ -89,7 +89,7 @@
 %   \name Zhihao Lou \\
 %   \addr Epsilon, Chicago, IL, USA
 %   \AND
-%   \name Conrad Sanderson \\  %% NOTE: DO NOT LIST MY EMAIL ADDRESS; I DON'T WANT SPAM OR JOB OFFERS FROM AMAZON
+%   \name Conrad Sanderson \\  %% NOTE: ** DO NOT ** LIST MY EMAIL ADDRESS; I DON'T WANT SPAM OR JOB OFFERS FROM AMAZON
 %   \addr Data61/CSIRO, Australia, and Griffith University, Australia%
 %   }
 
@@ -118,8 +118,8 @@ and is distributed under the permissive BSD license.
   Numerical optimization, mathematical optimization, function minimization.
 \end{keywords}
 
+
 \section{Introduction}
-\label{sec:introduction}
 
 The problem of numerical optimization is in short expressed as
 $\operatornamewithlimits{argmin}_x f(x)$
@@ -183,7 +183,7 @@ by {\tt ensmallen} and other optimization toolkits.
           & 
             %
             % If I can implement any new optimization technique to use
-          & \rot{\scriptsize arbitrary optimizers (?)}
+          & \rot{\scriptsize easily extensible}
             %
             % If there is any support for constrained optimization
           & \rot{\scriptsize constraints}
@@ -406,7 +406,6 @@ Feature comparison:
 % \end{table}
 
 \section{Functionality}
-\label{sec:overview}
 
 The task of optimizing an objective function with {\tt ensmallen} is straightforward.
 The type of objective function defines the implementation requirements.
@@ -548,7 +547,6 @@ regression and usage of the L-BFGS optimizer in {\tt ensmallen}.
 % TODO: add basic details on the set of optimizers we implement
 
 \section{Example Usage \& Empirical Comparison}
-\label{sec:linreg_example}
 
 For demonstration purposes, let us consider the problem of linear regression.
 A matrix of predictors $\bm X \in \mathcal{R}^{n \times d}$
@@ -848,7 +846,6 @@ and $d$ is the dimensionality of each sample.
 
 
 \section{Conclusion}
-\label{sec:conclusion}
 
 The {\tt ensmallen} numerical optimization provides a flexible framework
 for optimization of user-supplied objective functions in C++.
