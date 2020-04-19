@@ -347,7 +347,7 @@ int main()
   arma::mat X; arma::vec y;
   // ... set the contents of X and y here ...
   arma::mat phi_star(X.n_rows, 1, arma::fill::randu);  // initial point (uniform random)
-  ens::LinearRegressionFn f(X, y);
+  LinearRegressionFn f(X, y);
   ens::L_BFGS optimizer; // create an optimizer object with default parameters
   optimizer.Optimize(f, phi_star);
   // at this point phi_star contains the optimized parameters
