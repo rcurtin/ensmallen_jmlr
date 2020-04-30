@@ -334,10 +334,10 @@ struct LinearRegressionFn
   LinearRegressionFn(const arma::mat& in_X, const arma::vec& in_Y) : X(in_X), y(in_Y) {}
 
   double Evaluate(const arma::mat& phi)
-    { const arma::vec tmp = X * phi - y;  return arma::dot(tmp,tmp); }
+    { const arma::vec tmp = X.t() * phi - y;  return arma::dot(tmp,tmp); }
   
   void Gradient(const arma::mat& phi, arma::mat& grad)
-    { grad = 2 * X.t() * (X * phi - y); }
+    { grad = 2 * X * (X.t() * phi - y); }
 
   const arma::mat& X; const arma::vec& y;
 };
@@ -378,15 +378,15 @@ or {\tt ens::SA} which implements simulated annealing \citep{kirkpatrick1983opti
 \section{Example Usage \& Empirical Comparison}
 
 For demonstration purposes, let us consider the problem of linear regression.
-A matrix of predictors $\bm X \in \mathcal{R}^{n \times d}$
+A matrix of predictors $\bm X \in \mathcal{R}^{d \times n}$
 and a vector of responses $\bm y \in \mathcal{R}^n$ is given.
 The task is to find the best linear model $\bm \Phi \in \mathcal{R}^d$,
 which translates to finding
 $\bm \Phi^* = \operatornamewithlimits{argmin}_{\bm\Phi} f(\bm \Phi)$ for
 %$f(\bm \Phi) = \| \bm X \bm \Phi - \bm y \|^2 = (\bm X \bm \Phi - \bm y)^{\top} (\bm X \bm \Phi - \bm y).$
-$f(\bm \Phi) = \| \bm X \bm \Phi - \bm y \|^2.$
+$f(\bm \Phi) = \| \bm X^{\top} \bm \Phi - \bm y \|^2.$
 From this we can derive the gradient
-$f'(\bm \Phi) = 2 \bm X^{\top} (\bm X \bm \Phi - \bm y).$
+$f'(\bm \Phi) = 2 \bm X (\bm X^{\top} \bm \Phi - \bm y).$
 
 To find $\bm \Phi^*$ using a differentiable optimizer,
 we simply need to provide implementations of $f(\bm \Phi)$ and $f'(\bm \Phi)$.
