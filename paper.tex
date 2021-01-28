@@ -104,9 +104,9 @@ A~diverse set of pre-built optimizers is provided,
 including Quasi-Newton optimizers and many variants of Stochastic Gradient Descent.
 The underlying framework facilitates the implementation of new optimizers.
 Optimization of an objective function typically requires supplying only one or two {C++} functions.
-Custom behavior during optimization can be easily specified via callback functions.
+Custom behavior can be easily specified via callback functions.
 Empirical comparisons show that {\tt ensmallen}
-can outperform other optimization frameworks while providing more functionality.
+outperforms other frameworks while providing more functionality.
 The library is available at \url{https://ensmallen.org}
 and is distributed under the permissive BSD license.
 
@@ -148,149 +148,208 @@ including:
 and
 (v)~extensibility, to facilitate adding more optimizers.
 
-The abovementioned shortcomings have motivated us to implement the {\tt ensmallen} library,
+These shortcomings have motivated us to implement the {\tt ensmallen} library,
 which explicitly supports numerous types of user-defined objective functions,
-including general, differentiable, separable, categorical, constrained, and semidefinite.
+including general, differentiable, separable, categorical, and constrained
+objective functions, as well as semidefinite programs.
 Custom behavior during optimization can be specified via {callback} functions,
 for purposes such as printing progress, early stopping, inspection and modification of an optimizer's state,
 and debugging of new optimizers.
-A~large and diverse set of pre-built optimizers is provided;
+A~large set of pre-built optimizers is provided;
 at the time of writing, 46 optimizers are available.
 This includes 
 simulated annealing \citep{kirkpatrick1983optimization},
 several Quasi-Newton optimizers \citep{liu1989limited,mokhtari2018},
 and many variants of Stochastic Gradient Descent \citep{Ruder_2016}.
-The user-facing interface to the optimizers is intuitive
+
+%\begin{figure}[t!]
+%\hrule
+%\vspace{1ex}
+%\centering
+%\begin{minted}[fontsize=\footnotesize]{c++}
+%
+%#include <ensmallen.hpp>
+%
+%struct QuadraticFunction
+%{
+%  double Evaluate(const arma::mat& x) { return (x.t() * x); }
+%  void Gradient(const arma::mat& x, arma::mat& grad) { grad = 2 * x; }
+%};
+%
+%int main() 
+%{
+%  arma::mat x(100, 1, arma::fill::randu); // initial point, 100d, uniform random
+%  ens::GradientDescent optimizer; // create an optimizer for differentiable functions
+%  optimizer.Optimize(QuadraticFunction(), x); // after this, x should contain all zeros
+%}
+%\end{minted}
+%\hrule
+%\vspace*{-0.8em}
+%\caption{Code for optimizing a simple
+%quadratic objective $f(\mathbf{x}) = \| \mathbf{x} \|^2_2$ with {\tt ensmallen}.  The optimizer can easily be
+%changed by replacing {\tt ens::GradientDescent}.}
+%\label{fig:quadratic}
+%\vspace*{-2.5em}
+%\end{figure}
+
+The user interface to the optimizers is intuitive
 and matches the ease of use of popular
-optimization toolkits mentioned above;
-see the online documentation at \mbox{\url{https://ensmallen.org/docs.html}} for more details.
-Furthermore, {\tt ensmallen} supports the use of various underlying element and matrix types.
-This includes single- and double-precision floating point values~\citep{Goldberg_CSUR_1991}, 
-integer values, and data compactly stored as sparse matrices.
-Lastly, {\tt ensmallen} provides a framework to easily allow the implementation of new optimization techniques.
-Table~\ref{tab:comparison} compares the functionality provided
-by {\tt ensmallen} and other optimization toolkits.
+optimization toolkits mentioned above; for more details, see
+%Figure~\ref{fig:quadratic} and
+the online documentation at
+\mbox{\url{https://ensmallen.org/docs.html}}.
+Typically, a user only needs to implement one or two {C++}
+functions, and then they can use any optimizer
+matching the type of their objective.
 
+Importantly, the ease-of-use does not come at the cost of efficiency; instead,
+{\tt ensmallen} uses C++ template metaprogramming techniques (hidden from the
+user) to provide accelerations and simplifications where possible.
+%Armadillo C++ linear algebra library~\citep{sanderson2016armadillo}. % In some
+%cases, {\tt ensmallen}'s template metaprogramming machinery can infer efficient
+%implementations of functions that optimizers may use, decreasing the burden of
+%implementation for users.
+%  Through this support, the user may specify a combined
+%function that computes both the objective value and gradient simultaneously,
+%instead of two separate functions, and this can result in significant
+%computational savings.
+{\tt ensmallen} also supports the use of various underlying element and matrix
+types, including single- and double-precision floating point,
+integer values, and sparse data.
+Lastly, {\tt ensmallen} provides an extensible framework to easily allow the implementation of new optimization techniques.
+%Table~\ref{tab:comparison} compares the functionality provided
+%by {\tt ensmallen} and other optimization toolkits.
 
-\begin{table}[!t]
-\footnotesize
-\centering
-    \begin{tabular}{@{} cl*{8}c @{}}
+%{\tt ensmallen}'s support is unique: to our knowledge, there is no other
+%existing toolkit that supports so many classes of objective functions
+%while still retaining the ability to exploit their properties.  For instance,
+%machine learning toolkits like PyTorch~\citep{PyTorch_NeurIPS_2019} and
+%TensorFlow~\citep{TensorFlow_arXiv_2016} support small-batch optimization for
+%separable objective functions via SGD, but do not seamlessly support constrained
+%optimization or categorical variables.  On the other hand, general optimization
+%toolkits like SciPy~\citep{SciPy_arXiv_2019} and {\tt
+%Optim.jl}~\citep{mogensen2018optim} support arbitrary objectives, but have no
+%support for small-batch optimizers.
+
+%\begin{table}[!t]
+%\footnotesize
+%\centering
+%    \begin{tabular}{@{} cl*{8}c @{}}
 %  \begin{tabular}{ccccccc}
-          & 
-          & \multicolumn{6}{c}{} \\[0.6ex]
-          & 
-            %
-            % If I can easily implement any new optimization technique to use
-          & \rot{\scriptsize easily extensible}
-            %
-            % If there is any support for constrained optimization
-          & \rot{\scriptsize constraints}
-            %
-            % If the optimization framework can do mini-batch
-          & \rot{\scriptsize batches}  % NOTE: originally as: separable fns.~/~batches
-            % 
-            % If I can implement any arbitrary (general) function to be optimized
-          & \rot{\scriptsize general objective fns.}
-            %
-            % the framework could take advantage of when the gradient is sparse
-          & \rot{\scriptsize sparse gradients}
-            %
-            % the framework can handle categorical/discrete variables
-          & \rot{\scriptsize categorical variables}
-            %
-            % If any type can be optimized, this is true
-            & \rot{\scriptsize various element types}
-            %
-            % If callback support is available.
-          & \rot{\scriptsize callback fns.} \\
-        \cmidrule[1pt]{2-10}
-        % 
-        % It might be reasonable to say ensmallen categorical support is only partial,
-        % but I am not sure exactly where we draw the line.
-        & \texttt{ensmallen}
-        & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE\\
-        %
-        % The Shogun toolbox has a fairly nice framework, but it doesn't support
-        % sparse gradients or categorical features.  It also does not appear to
-        % support constraints, arbitrary types, or callbacks.
-        & Shogun \citep{sonnenburg2010shogun}
-        & \CIRCLE & - & \CIRCLE & \CIRCLE & - & - & - & - \\
-        % 
-        % VW doesn't appear to have any framework whatsoever and the code is
-        % awful, but it does support batches and categorical features.
-        & VW \citep{Langford2007VW}
-        & - & - & \CIRCLE  & - & - & \CIRCLE & - & - \\
-        % 
-        % TensorFlow has a few optimizers, but they are all SGD-related.  You
-        % can write most objectives easily (but some very hard), and categorical
-        % support might be possible but would not be easy.
-        & TensorFlow \citep{TensorFlow_arXiv_2016}
-        & - & -  & \CIRCLE  & \LEFTcircle & \LEFTcircle & - & \LEFTcircle & - \\
-        % 
-        % PyTorch is increasingly popular these days.  It has Caffe integrated
-        % into itself, but this refers to the actual PyTorch optimizer parts.
-        & PyTorch \citep{PyTorch_NeurIPS_2019}
-        & \LEFTcircle & - & \CIRCLE & \LEFTcircle & - & - & \LEFTcircle & - \\
-        % 
-        %% Caffe has a nice framework, but it's only for SGD-related optimizers.
-        %% I think I could write a new one, but it is not the easiest thing in
-        %% the world.
-        %% & Caffe \citep{jia2014caffe}
-        %% & \LEFTcircle & \CIRCLE & -  & \CIRCLE & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
-        %
-        % Keras is restricted to neural networks and SGD-like optimizers.
-        % I don't know that it is possible to easily write a new optimizer.
-        & Keras \citep{chollet2015keras}
-        & \LEFTcircle & -  & \CIRCLE & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
-        % 
-        % sklearn has a few optimizer frameworks, but they are all in different
-        % places and have somewhat different support.
-        & scikit-learn \citep{pedregosa2011scikit}
-        & - & - & \LEFTcircle  & \LEFTcircle & - & - & \LEFTcircle & - \\
-        % 
-        % scipy has some nice optimizer framework but it does not support
-        % batches or some of the more complex functionality.  And you can't
-        % write your own.
-        & SciPy \citep{SciPy_arXiv_2019}
-        & - & \CIRCLE  & -  & \CIRCLE & - & - & \LEFTcircle & \CIRCLE \\
-        % 
-        % MATLAB is very similar to scipy.
-        & MATLAB \citep{mathworks2017OTB}
-        & - & \CIRCLE & - & \CIRCLE & - & - & \LEFTcircle & - \\
-        % 
-        % Optim.jl isn't the only Julia package for optimization, but it's the
-        % one we compare against.
-        % & \texttt{Optim.jl} \citep{mogensen2018optim}   &
-        & \texttt{Optim.jl} (Mogensen et al.~2018) \nocite{mogensen2018optim}
-        & - & \LEFTcircle & - & \CIRCLE & - & - & \CIRCLE & \CIRCLE \\
-        \cmidrule[1pt]{2-10}
-    \end{tabular}
-\vspace*{-0.5em}
-\caption{
-Feature comparison:
-\CIRCLE~= available,
-\LEFTcircle~= partially available,
--~= not available.
-\label{tab:comparison}
-\vspace{-1.5ex}
-}
-\end{table}
+%          & 
+%          & \multicolumn{6}{c}{} \\[0.6ex]
+%          & 
+%            %
+%            % If I can easily implement any new optimization technique to use
+%          & \rot{\scriptsize easily extensible}
+%            %
+%            % If there is any support for constrained optimization
+%          & \rot{\scriptsize constraints}
+%            %
+%            % If the optimization framework can do mini-batch
+%          & \rot{\scriptsize batches}  % NOTE: originally as: separable fns.~/~batches
+%            % 
+%            % If I can implement any arbitrary (general) function to be optimized
+%          & \rot{\scriptsize general objective fns.}
+%            %
+%            % the framework could take advantage of when the gradient is sparse
+%          & \rot{\scriptsize sparse gradients}
+%            %
+%            % the framework can handle categorical/discrete variables
+%          & \rot{\scriptsize categorical variables}
+%            %
+%            % If any type can be optimized, this is true
+%            & \rot{\scriptsize various element types}
+%            %
+%            % If callback support is available.
+%          & \rot{\scriptsize callback fns.} \\
+%        \cmidrule[1pt]{2-10}
+%        % 
+%        % It might be reasonable to say ensmallen categorical support is only partial,
+%        % but I am not sure exactly where we draw the line.
+%        & \texttt{ensmallen}
+%        & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE\\
+%        %
+%        % The Shogun toolbox has a fairly nice framework, but it doesn't support
+%        % sparse gradients or categorical features.  It also does not appear to
+%        % support constraints, arbitrary types, or callbacks.
+%        & Shogun \citep{sonnenburg2010shogun}
+%        & \CIRCLE & - & \CIRCLE & \CIRCLE & - & - & - & - \\
+%        % 
+%        % VW doesn't appear to have any framework whatsoever and the code is
+%        % awful, but it does support batches and categorical features.
+%        & VW \citep{Langford2007VW}
+%        & - & - & \CIRCLE  & - & - & \CIRCLE & - & - \\
+%        % 
+%        % TensorFlow has a few optimizers, but they are all SGD-related.  You
+%        % can write most objectives easily (but some very hard), and categorical
+%        % support might be possible but would not be easy.
+%        & TensorFlow \citep{TensorFlow_arXiv_2016}
+%        & - & -  & \CIRCLE  & \LEFTcircle & \LEFTcircle & - & \LEFTcircle & - \\
+%        % 
+%        % PyTorch is increasingly popular these days.  It has Caffe integrated
+%        % into itself, but this refers to the actual PyTorch optimizer parts.
+%        & PyTorch \citep{PyTorch_NeurIPS_2019}
+%        & \LEFTcircle & - & \CIRCLE & \LEFTcircle & - & - & \LEFTcircle & - \\
+%        % 
+%        %% Caffe has a nice framework, but it's only for SGD-related optimizers.
+%        %% I think I could write a new one, but it is not the easiest thing in
+%        %% the world.
+%        %% & Caffe \citep{jia2014caffe}
+%        %% & \LEFTcircle & \CIRCLE & -  & \CIRCLE & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
+%        %
+%        % Keras is restricted to neural networks and SGD-like optimizers.
+%        % I don't know that it is possible to easily write a new optimizer.
+%        & Keras \citep{chollet2015keras}
+%        & \LEFTcircle & -  & \CIRCLE & \LEFTcircle & - & - & \LEFTcircle & \CIRCLE \\
+%        % 
+%        % sklearn has a few optimizer frameworks, but they are all in different
+%        % places and have somewhat different support.
+%        & scikit-learn \citep{pedregosa2011scikit}
+%        & - & - & \LEFTcircle  & \LEFTcircle & - & - & \LEFTcircle & - \\
+%        % 
+%        % scipy has some nice optimizer framework but it does not support
+%        % batches or some of the more complex functionality.  And you can't
+%        % write your own.
+%        & SciPy \citep{SciPy_arXiv_2019}
+%        & - & \CIRCLE  & -  & \CIRCLE & - & - & \LEFTcircle & \CIRCLE \\
+%        % 
+%        % MATLAB is very similar to scipy.
+%        & MATLAB \citep{mathworks2017OTB}
+%        & - & \CIRCLE & - & \CIRCLE & - & - & \LEFTcircle & - \\
+%        % 
+%        % Optim.jl isn't the only Julia package for optimization, but it's the
+%        % one we compare against.
+%        % & \texttt{Optim.jl} \citep{mogensen2018optim}   &
+%        & \texttt{Optim.jl} (Mogensen et al.~2018) \nocite{mogensen2018optim}
+%        & - & \LEFTcircle & - & \CIRCLE & - & - & \CIRCLE & \CIRCLE \\
+%        \cmidrule[1pt]{2-10}
+%    \end{tabular}
+%\vspace*{-0.5em}
+%\caption{
+%Feature comparison:
+%\CIRCLE~= available,
+%\LEFTcircle~= partially available,
+%-~= not available.
+%\label{tab:comparison}
+%\vspace{-1.5ex}
+%}
+%\end{table}
 
 
 \section{Functionality}
 
 The task of optimizing an objective function with {\tt ensmallen} is straightforward.
 The type of objective function defines the implementation requirements.
-Each type has a minimal set of methods that must be implemented,
-which typically is only between one and four methods.
-Apart from the baseline requirement of an implementation of $f(x)$,
+Each type has a minimal set of methods that must be implemented;
+typically between one and four methods.
+Apart from the requirement of an implementation of $f(x)$,
 characteristics of $f(x)$ can be exploited through additional functions.
 For example, if $f(x)$ is differentiable,
 an implementation of $f'(x)$ can be used to speed up the optimization process.
-One of the pre-built optimizers for differentiable functions,
-such as L-BFGS~\citep{liu1989limited},
-can be immediately employed.
+Then, one of {\tt ensmallen}'s differentiable function optimizers,
+such as L-BFGS~\citep{liu1989limited}, can be used.
+%can be immediately employed.
 
 Whenever possible, {\tt ensmallen} will automatically infer methods
 that are not provided.
@@ -304,24 +363,27 @@ overhead compared to a manual implementation.
 C++ template metaprogramming techniques~\citep{Abrahams_2004,alexandrescu2001modern}
 are internally used to automatically produce efficient code during compilation.
 
-To implement a new optimizer,
-only one function needs to be defined inside a class,
-which can then expect an external implementation of $f(x)$ to be available.
-If the optimizer is restricted to handling differentiable functions,
-it can also expect an implementation of $f'(x)$ to be available.
+To implement a new optimizer, the user only needs to implement a class with an
+{\tt Optimize()} method taking an external implementation of $f(x)$ (and other
+functions specific to the class of objective function).  Thus, {\tt ensmallen}
+is easily extensible.
+%only one function needs to be defined inside a class,
+%which can then expect an external implementation of $f(x)$ to be available.
+%If the optimizer is restricted to handling differentiable functions,
+%it can also expect an implementation of $f'(x)$ to be available.
 
 When an optimizer (either pre-built or new) is used with a user-provided objective function,
-an internal mechanism automatically checks the requirements for that optimizer
-(eg., presence of an implementation of $f'(x)$),
+the requirements for that optimizer are checked
+(e.g., presence of an implementation of $f'(x)$),
 resulting in user-friendly error messages at compile-time
-if any required methods are not detected.
+if there are any issues.
 For example, as L-BFGS is suited for differentiable functions,
 a compile-time error will be printed if an attempt is made
 to use it with non-differentiable (general) functions.
 
 %% SIMPLIFIED EXAMPLE CODE
 %% 
-\begin{figure}[b!]
+\begin{figure}[t!]
 \hrule
 \vspace{1ex}
 \centering
@@ -334,7 +396,7 @@ struct LinearRegressionFn
   LinearRegressionFn(const arma::mat& in_X, const arma::vec& in_Y) : X(in_X), y(in_Y) {}
 
   double Evaluate(const arma::mat& phi)
-    { const arma::vec tmp = X.t() * phi - y;  return arma::dot(tmp,tmp); }
+    { const arma::vec tmp = X.t() * phi - y;  return arma::dot(tmp, tmp); }
   
   void Gradient(const arma::mat& phi, arma::mat& grad)
     { grad = 2 * X * (X.t() * phi - y); }
@@ -349,8 +411,7 @@ int main()
   arma::mat phi_star(X.n_rows, 1, arma::fill::randu);  // initial point (uniform random)
   LinearRegressionFn f(X, y);
   ens::L_BFGS optimizer; // create an optimizer object with default parameters
-  optimizer.Optimize(f, phi_star);
-  // at this point phi_star contains the optimized parameters
+  optimizer.Optimize(f, phi_star); // after here, phi_star contains the optimized parameters
 }
 \end{minted}
 \hrule
@@ -377,15 +438,15 @@ or {\tt ens::SA} which implements simulated annealing \citep{kirkpatrick1983opti
 
 \section{Example Usage \& Empirical Comparison}
 
-For demonstration purposes, let us consider the problem of linear regression.
-A matrix of predictors $\bm X \in \mathcal{R}^{d \times n}$
-and a vector of responses $\bm y \in \mathcal{R}^n$ is given.
-The task is to find the best linear model $\bm \Phi \in \mathcal{R}^d$,
+For an example implementation and comparison, let us first consider linear regression.
+In this problem, predictors $\bm X \in \mathcal{R}^{d \times n}$
+and associated responses $\bm y \in \mathcal{R}^n$ are given.
+We wish to find the best linear model $\bm \Phi \in \mathcal{R}^d$,
 which translates to finding
 $\bm \Phi^* = \operatornamewithlimits{argmin}_{\bm\Phi} f(\bm \Phi)$ for
 %$f(\bm \Phi) = \| \bm X \bm \Phi - \bm y \|^2 = (\bm X \bm \Phi - \bm y)^{\top} (\bm X \bm \Phi - \bm y).$
 $f(\bm \Phi) = \| \bm X^{\top} \bm \Phi - \bm y \|^2.$
-From this we can derive the gradient
+This gives the gradient
 $f'(\bm \Phi) = 2 \bm X (\bm X^{\top} \bm \Phi - \bm y).$
 
 To find $\bm \Phi^*$ using a differentiable optimizer,
@@ -403,19 +464,34 @@ allowing easy exploitation of high-performance implementations such as the multi
 Table~\ref{tab:lbfgs} compares the performance
 of {\tt ensmallen} against other optimization frameworks
 for the task of optimizing linear regression parameters on various dataset sizes.
-We use the {\tt bfgsmin()} function from GNU Octave \citep{octave}.
-We also use automatic differentiation for Julia via {\tt ForwardDiff.jl} \citep{RevelsLubinPapamarkou2016}
-and for Python via Autograd \citep{maclaurin2015autograd}.
+We compare against {\tt SciPy}, {\tt
+Optim.jl}~\citep{mogensen2018optim}, and the {\tt bfgsmin()} function from GNU
+Octave \citep{octave}.
+We also compare against the automatic differentiation implementations of
+PyTorch, TensorFlow,
+and the Python library Autograd \citep{maclaurin2015autograd}.
 In each framework the provided L-BFGS optimizer is explicitly limited to $10$ iterations.
 The data used are highly noisy random data with a slight linear pattern.
-The runtimes are the average of 10 runs.
-The experiments were done on a MacBook Pro i7 (2018 model),
-with clang 1000.10.44.2, Julia version 1.0.1, Python 2.7.15, and Octave 4.4.1.
-The results show that {\tt ensmallen} obtains the lowest run times.
+The runtimes are the average of 5 runs; the differences between runtimes was
+found to be very small for each competitor.
+%The experiments were done on a MacBook Pro i7 (2018 model),
+%with clang 1000.10.44.2, Julia version 1.0.1, Python 2.7.15, and Octave 4.4.1.
+
+Next, we consider the common machine learning problem of logistic regression
+using various real datasets from the UCI dataset
+repository~\citep{ucimlrepository}.  The setup of our experiments is the same as for
+the previous example; the results are shown in
+Table~\ref{tab:lbfgs_logistic_regression}.
+
+Both simulations show that {\tt ensmallen} achieves the lowest runtimes,
+sometimes by large margins.  This is due to multiple factors, including the
+efficiency and simplicity of {\tt ensmallen}'s optimizer implementations,
+template metaprogramming optimizations in Armadillo and {\tt ensmallen}, and
+minimal overhead and dependencies compared to competitors.
 
 %% RESULTS WITH ONLY ONE ROW FOR ENSMALLEN
 %% 
-\begin{table}[t!]
+\begin{table}[b!]
 {\small
 \centering
 %\begin{adjustbox}{scale={0.90}{0.90}}
@@ -429,16 +505,18 @@ The results show that {\tt ensmallen} obtains the lowest run times.
 %\texttt{Calculus.jl} & 0.172s & 0.960s & 27.428s & 2535.507s \\
 \texttt{Optim.jl}  & 0.006s & 0.030s & 0.337s & 4.271s \\
 \texttt{SciPy} & 0.003s & 0.017s & 0.202s & 2.729s \\
-\texttt{bfgsmin()} & 0.071s & 0.859s & 23.220s & 2859.81s\\
+Autograd & 0.007s & 0.026s & 0.210s & 2.673s \\
 % It's possible to tune ForwardDiff.jl a bit, but it doesn't give significant
 % speedups to make it competitive and it really makes the code ugly.
-\texttt{ForwardDiff.jl} & 0.497s & 1.159s & 4.996s & 603.106s \\
-\texttt{Autograd} & 0.007s & 0.026s & 0.210s & 2.673s \\
+%\texttt{ForwardDiff.jl} & 0.497s & 1.159s & 4.996s & 603.106s \\
+PyTorch & \\
+TensorFlow & \\
+\texttt{bfgsmin()} & 0.071s & 0.859s & 23.220s & 2859.81s\\
 \bottomrule
 \end{tabular}
 %\end{adjustbox}
 %\vspace*{0.25ex}
-\vspace*{-0.4em}
+\vspace*{-0.7em}
 \caption{
 Runtimes for optimizing linear regression parameters on various dataset sizes,
 where $n$ is the number of samples,
@@ -447,7 +525,37 @@ and $d$ is the dimensionality of each sample.
 }
 \label{tab:lbfgs}
 }
-\vspace*{-2.2em}
+\vspace*{-1.2em}
+\end{table}
+
+\begin{table}[b!]
+{\small
+\centering
+\begin{tabular}{lccccc}
+\toprule
+{\em Framework} & MNIST & covertype & pokerhand & font & isolet \\
+  & 60k $\times$ 784 & 407k $\times$ 55 & 700k $\times$ 10 & 832k $\times$ 407 & 7.8k $\times$ 617
+\\
+\midrule
+\texttt{ensmallen}  & {\bf 0.6546s} & {\bf 0.9038s} & {\bf 0.5186s} & {\bf 6.1678s} & {\bf 0.0510s} \\
+%\texttt{ensmallen-2}& 0.9742s       & 1.3437s       & 0.7887s       & 9.0296s       & 0.0748s \\
+\texttt{Optim.jl}   & 1.4231s       & 1.2067s       & 0.6754s       & 10.9051s      & 0.1214s \\
+\texttt{SciPy}      & 0.8101s       & 1.1388s       & 1.0231s       & 7.5838s       & 0.07519s \\
+Autograd            & 0.8012s       & 1.4241s       & 2.6005s       & 7.1224s       & 0.0876s \\
+PyTorch             & 6.5710s       & 8.8340s       & 3.2404s       & 59.0194s      & 0.8172s \\
+TensorFlow          & 9.3662s       & 5.4231s       & 2.6005s       & 70.1122s      & 0.7563s \\
+\texttt{bfgsmin()}  & 539.1358s     & 43.9067s      & 8.2561s       & 2358.1680s    & 48.8020s \\
+\bottomrule
+\end{tabular}
+\vspace*{-0.7em}
+\caption{
+Runtimes for training a logistic regression model on
+real data with L-BFGS.}
+% NOTE: this was done on grimble.ratml.org, and so the description must be
+% updated.
+\label{tab:lbfgs_logistic_regression}
+}
+\vspace*{-1.2em}
 \end{table}
 
 
