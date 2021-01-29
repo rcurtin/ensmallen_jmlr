@@ -34,11 +34,14 @@
 \usepackage{tabularx}
 \usepackage{array}
 \usepackage{wasysym}
+\usepackage{dcolumn}
 
 % Definitions of handy macros can go here
 
 \newcommand{\dataset}{{\cal D}}
 \newcommand{\fracpartial}[2]{\frac{\partial #1}{\partial  #2}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\newcommand\mc[1]{\multicolumn{1}{c}{#1}}
 
 \newcolumntype{R}[2]{%
   >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
@@ -481,9 +484,9 @@ with g++ 10.2.0, Julia 1.5.2, Python 3.8.5, and Octave 6.1.0.
 For fairness, all tools used the CPU only.
 
 Next, we consider the common machine learning problem of logistic regression
-using various real datasets from the UCI dataset
+using two-class versions of various real datasets from the UCI dataset
 repository~\citep{ucimlrepository}.  The setup of our experiments is the same as for
-the previous example; the results are shown in
+the previous example; results are in
 Table~\ref{tab:lbfgs_logistic_regression}.
 
 Both simulations show that {\tt ensmallen} achieves the lowest runtimes,
@@ -498,23 +501,22 @@ minimal overhead and dependencies compared to competitors.
 {\small
 \centering
 %\begin{adjustbox}{scale={0.90}{0.90}}
-\begin{tabular}{lccccc}
+\begin{tabular}{l *{5}{d{3.4}}}
 \toprule
-{\em Framework} & $d$: 100, $n$: 1k & $d$: 100, $n$: 10k & $d$: 100, $n$:
-100k & $d$: 1k, $n$: 100k \\
+{\em Framework} & \multicolumn{1}{c}{$d$: 100, $n$: 1k} & \multicolumn{1}{c}{$d$: 100, $n$: 10k} & \multicolumn{1}{c}{$d$: 100, $n$: 100k} & \multicolumn{1}{c}{$d$: 1k, $n$: 100k} \\
 \midrule
-\texttt{ensmallen} & {\bf 0.001s} & {\bf 0.009s} & {\bf 0.154s} & {\bf 2.215s} \\
+\texttt{ensmallen}  & {\bf 0}.{\bf 0016}s & {\bf 0}.{\bf 0067}s & {\bf 0}.{\bf 1460}s & {\bf 1}.{\bf 4011s} \\
+\texttt{Optim.jl}   & 0.0069s       & 0.0117s       & 0.1672s       & 1.3985s \\
+\texttt{SciPy}      & 0.0028s       & 0.0110s       & 0.2247s       & 1.8461s \\
+Autograd            & 0.0073s       & 0.0163s       & 0.2416s       & 1.8733s \\
+PyTorch             & 0.0469s       & 0.0986s       & 0.5670s       & 5.6041s \\
+TensorFlow          & 0.5022s       & 28.8316s      &               & \\
+\texttt{bfgsmin()}  & 1.9773s       & 18.0515s      & 123.437s      & 5.6041s \\
 % Dropped for space and awful performance
 %\texttt{Calculus.jl} & 0.172s & 0.960s & 27.428s & 2535.507s \\
-\texttt{Optim.jl}  & 0.006s & 0.030s & 0.337s & 4.271s \\
-\texttt{SciPy} & 0.003s & 0.017s & 0.202s & 2.729s \\
-Autograd & 0.007s & 0.026s & 0.210s & 2.673s \\
 % It's possible to tune ForwardDiff.jl a bit, but it doesn't give significant
 % speedups to make it competitive and it really makes the code ugly.
 %\texttt{ForwardDiff.jl} & 0.497s & 1.159s & 4.996s & 603.106s \\
-PyTorch & \\
-TensorFlow & \\
-\texttt{bfgsmin()} & 0.071s & 0.859s & 23.220s & 2859.81s\\
 \bottomrule
 \end{tabular}
 %\end{adjustbox}
@@ -534,13 +536,13 @@ and $d$ is the dimensionality of each sample.
 \begin{table}[b!]
 {\small
 \centering
-\begin{tabular}{lccccc}
+\begin{tabular}{l *{5}{d{6.5}}}
 \toprule
-{\em Framework} & MNIST & covertype & pokerhand & font & isolet \\
-  & 60k $\times$ 784 & 407k $\times$ 55 & 700k $\times$ 10 & 832k $\times$ 407 & 7.8k $\times$ 617
+{\em Framework} & \multicolumn{1}{c}{MNIST} & \multicolumn{1}{c}{covertype} & \multicolumn{1}{c}{pokerhand} & \multicolumn{1}{c}{font} & \multicolumn{1}{c}{isolet} \\
+  & \multicolumn{1}{c}{60k $\times$ 784} & \multicolumn{1}{c}{407k $\times$ 55} & \multicolumn{1}{c}{700k $\times$ 10} & \multicolumn{1}{c}{832k $\times$ 407} & \multicolumn{1}{c}{7.8k $\times$ 617}
 \\
 \midrule
-\texttt{ensmallen}  & {\bf 0.6546s} & {\bf 0.9038s} & {\bf 0.5186s} & {\bf 6.1678s} & {\bf 0.0510s} \\
+\texttt{ensmallen}  & {\bf 0}.{\bf 6546s} & {\bf 0}.{\bf 9038s} & {\bf 0}.{\bf 5186s} & {\bf 6}.{\bf 1678s} & {\bf 0}.{\bf 0510s} \\
 %\texttt{ensmallen-2}& 0.9742s       & 1.3437s       & 0.7887s       & 9.0296s       & 0.0748s \\
 \texttt{Optim.jl}   & 1.4231s       & 1.2067s       & 0.6754s       & 10.9051s      & 0.1214s \\
 \texttt{SciPy}      & 0.8101s       & 1.1388s       & 1.0231s       & 7.5838s       & 0.07519s \\
