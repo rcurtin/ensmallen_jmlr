@@ -134,7 +134,7 @@ PyTorch~\citep{PyTorch_NeurIPS_2019}
 and LibSVM~\citep{libsvm2011}.
 There are also many general numerical optimization toolkits
 aimed at supporting a wider range of use cases,
-including SciPy~\citep{SciPy_arXiv_2019},
+including SciPy~\citep{SciPy_NMeth_2020},
 opt++~\citep{meza1994opt++},
 and 
 OR-Tools~\citep{ortools} among many others.
@@ -151,7 +151,7 @@ including:
 and
 (v)~extensibility, to facilitate adding more optimizers.
 
-These shortcomings have motivated us to implement the {\tt ensmallen} library,
+These shortcomings have motivated us to create the {\tt ensmallen} library,
 which explicitly supports numerous types of user-defined objective functions,
 including general, differentiable, separable, categorical, and constrained
 objective functions, as well as semidefinite programs.
@@ -216,8 +216,8 @@ user) to provide accelerations and simplifications where possible.
 %function that computes both the objective value and gradient simultaneously,
 %instead of two separate functions, and this can result in significant
 %computational savings.
-{\tt ensmallen} also supports the use of various underlying element and matrix
-types, including single- and double-precision floating point,
+The use of various underlying element and matrix types is supported,
+including single- and double-precision floating point,
 integer values, and sparse data.
 Lastly, {\tt ensmallen} provides an extensible framework to easily allow the implementation of new optimization techniques.
 %Table~\ref{tab:comparison} compares the functionality provided
@@ -349,8 +349,8 @@ typically between one and four methods.
 Apart from the requirement of an implementation of $f(x)$,
 characteristics of $f(x)$ can be exploited through additional functions.
 For example, if $f(x)$ is differentiable,
-an implementation of $f'(x)$ can be used to speed up the optimization process.
-Then, one of {\tt ensmallen}'s differentiable function optimizers,
+an implementation of $f'(x)$ can be used to accelerate the optimization process.
+Then, one of the pre-built differentiable function optimizers,
 such as L-BFGS~\citep{liu1989limited}, can be used.
 %can be immediately employed.
 
@@ -368,7 +368,7 @@ are internally used to automatically produce efficient code during compilation.
 
 To implement a new optimizer, the user only needs to implement a class with an
 {\tt Optimize()} method taking an external implementation of $f(x)$ (and other
-functions specific to the class of objective function).  Thus, {\tt ensmallen}
+functions specific to the class of objective function).  As such, {\tt ensmallen}
 is easily extensible.
 %only one function needs to be defined inside a class,
 %which can then expect an external implementation of $f(x)$ to be available.
@@ -473,8 +473,8 @@ Octave \citep{octave}.
 We also compare against the automatic differentiation implementations of
 PyTorch, TensorFlow,
 and the Python library Autograd \citep{maclaurin2015autograd}.
-In each framework the provided L-BFGS optimizer is limited to $10$ iterations.
-The data used are highly noisy random data with a slight linear pattern.
+In each framework, the provided L-BFGS optimizer is limited to $10$ iterations.
+Highly noisy random data with a slight linear pattern is used.
 The runtimes are the average of 5 runs.
 %; the differences between runtimes was
 %found to be very small for each competitor.
@@ -491,9 +491,9 @@ Table~\ref{tab:lbfgs_logistic_regression}.
 
 Both simulations show that {\tt ensmallen} achieves the lowest runtimes,
 sometimes by large margins.  This is due to multiple factors, including the
-efficiency and simplicity of {\tt ensmallen}'s optimizer implementations,
+efficiency of the optimizer implementations in {\tt ensmallen},
 template metaprogramming optimizations in Armadillo and {\tt ensmallen}, and
-minimal overhead and dependencies compared to competitors.
+minimal overhead and dependencies compared to the competitors.
 
 %% RESULTS WITH ONLY ONE ROW FOR ENSMALLEN
 %% 
