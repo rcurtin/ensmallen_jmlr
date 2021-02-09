@@ -1,0 +1,103 @@
+\documentclass[twoside,11pt]{article}
+
+% Any additional packages needed should be included after jmlr2e.
+% Note that jmlr2e.sty includes epsfig, amssymb, natbib and graphicx,
+% and defines many common macros, such as 'proof' and 'example'.
+%
+% It also sets the bibliographystyle to plainnat; for more information on
+% natbib citation styles, see the natbib documentation, a copy of which
+% is archived at http://www.jmlr.org/format/natbib.pdf
+
+% Available options for package jmlr2e are:
+%
+%   - abbrvbib : use abbrvnat for the bibliography style
+%   - nohyperref : do not load the hyperref package
+%   - preprint : remove JMLR specific information from the template,
+%         useful for example for posting to preprint servers.
+%
+% Example of using the package with custom options:
+%
+% \usepackage[abbrvbib, preprint]{jmlr2e}
+
+\usepackage{jmlr2e}
+\usepackage{minted}
+\usepackage{textcomp}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{booktabs}      % for \toprule in tables
+\usepackage{multirow}      % for table multirow
+\usepackage{tcolorbox}   % colorbox in minted
+\usepackage{parcolumns}
+\usepackage{adjustbox}
+\usepackage{nicefrac}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{wasysym}
+\usepackage{dcolumn}
+
+% Definitions of handy macros can go here
+
+\newcommand{\dataset}{{\cal D}}
+\newcommand{\fracpartial}[2]{\frac{\partial #1}{\partial  #2}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\newcommand\mc[1]{\multicolumn{1}{c}{#1}}
+
+\newcolumntype{R}[2]{%
+  >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
+  l%
+  <{\egroup}%
+}
+\newcommand*\rot{\multicolumn{1}{R{30}{2.0em}}}
+
+\begin{document}
+
+\noindent Dear Editors and Reviewers: \\
+
+\medskip
+
+\noindent This paper is a resubmission of JMLR manuscript 20-416.  We were
+encouraged to resubmit a revised article after addressing the comments of the
+reviewers; now that we have addressed each comment, we are ready to submit our
+revision.  We hope that you find our updates satisfactory. \\
+
+\noindent Below is a summary of changes:
+
+\begin{itemize}
+  \item Following the comments from Reviewer 1, we agree that Table 1 is
+confusing, and we have simply removed it.  This allows more space for
+experiments.
+
+  \item To demonstrate the utility and efficiency of ensmallen on real-world
+problems, we added an experiment comparing ensmallen to other toolkits to train
+a logistic regression model on real-world datasets from the UCI dataset
+repository.  Unfortunately, with only four pages, we were unable to figure out
+how to include any more experiments in the given space.  Readers who are
+interested in more information could refer to a few additional experiments in
+the technical report that is referenced at the end of the conclusion.
+
+  \item We also added PyTorch and TensorFlow to the list of competitors for our
+experiments.
+
+  \item We were concerned by the report of test failures by Reviewer 1 (thank
+you for the report!).  Many tests in ensmallen are probabilistic---we choose a
+random initial point, then ensure that the optimizer is able to reach somewhere
+close to the expected minimum.  Convergence is not always guaranteed, so
+sometimes we must run a handful of trials.  We overhauled our test
+infrastructure such that we are now able to run our tests 1000 times with
+different random seeds and no failures.  (Our changes can be seen in
+\url{https://github.com/mlpack/ensmallen/pull/249}.)  This revamped test suite
+is a part of the latest release, ensmallen 2.15.2.
+
+  \item Following the suggestion of Reviewer 1, we added a simple test example
+in the root of the repository ({\tt example.cpp}), and a link to it from the
+ensmallen documentation at \url{https://ensmallen.org/docs.html}.  We agree that
+this is a nice improvement; thanks to Reviewer 1 for suggesting this change.
+\end{itemize}
+
+\noindent We are always interested in more opportunities to improve our work,
+and so we look forward to additional feedback. \\
+
+\noindent Thank you!
+
+\end{document}
