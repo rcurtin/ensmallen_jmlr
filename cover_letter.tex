@@ -57,47 +57,41 @@
 \medskip
 
 \noindent This paper is a resubmission of JMLR manuscript 20-416.  We were
-encouraged to resubmit a revised article after addressing the comments of the
-reviewers; now that we have addressed each comment, we are ready to submit our
-revision.  We hope that you find our updates satisfactory. \\
-
-\noindent Below is a summary of changes:
+encouraged to resubmit a revised article after addressing the reviewers' comments.
+Below is a summary of the changes:
 
 \begin{itemize}
   \item Following the comments from Reviewer 1, we agree that Table 1 is
-confusing, and we have simply removed it.  This allows more space for
-experiments.
+confusing. We have removed it.  This has opened up space to provide an extra experiment.
 
-  \item To demonstrate the utility and efficiency of ensmallen on real-world
-problems, we added an experiment comparing ensmallen to other toolkits to train
+  \item To demonstrate the utility and efficiency of {\it ensmallen} on real-world
+problems, we added an experiment comparing {\it ensmallen} to other toolkits in the context of training 
 a logistic regression model on real-world datasets from the UCI dataset
-repository.  Unfortunately, with only four pages, we were unable to figure out
-how to include any more experiments in the given space.  Readers who are
-interested in more information could refer to a few additional experiments in
-the technical report that is referenced at the end of the conclusion.
+repository.  While we would like to add even more experiments,
+we are constrained by the four page limit for this manuscript.
+However, additional experiments for interested readers are given
+in the accompanying technical report, which is cited at the end of the conclusion.
 
-  \item We also added PyTorch and TensorFlow to the list of competitors for our
-experiments.
+  \item As per the suggestion of Reviewer 1, we added PyTorch and TensorFlow
+  for comparison in our experiments.
 
-  \item We were concerned by the report of test failures by Reviewer 1 (thank
-you for the report!).  Many tests in ensmallen are probabilistic---we choose a
-random initial point, then ensure that the optimizer is able to reach somewhere
-close to the expected minimum.  Convergence is not always guaranteed, so
-sometimes we must run a handful of trials.  We overhauled our test
-infrastructure such that we are now able to run our tests 1000 times with
-different random seeds and no failures.  (Our changes can be seen in
-\url{https://github.com/mlpack/ensmallen/pull/249}.)  This revamped test suite
-is a part of the latest release, ensmallen 2.15.2.
+  \item We have addressed the test failures reported by Reviewer 1.
+Many tests in {\it ensmallen} are probabilistic, where a random initial point is used,
+followed by checking that an optimizer is able to reach somewhere
+close to the expected minimum.  However, given the nature of many optimizers,
+convergence to an expected point is not always guaranteed.
+To address this, we overhauled our test infrastructure such that we are now able
+to run our tests 1000 times with unique random seeds and no failures.
+The revamped test suite is part of the latest release, ensmallen 2.15.2.
+(The changes can be viewed in \url{https://github.com/mlpack/ensmallen/pull/249}).  
 
-  \item Following the suggestion of Reviewer 1, we added a simple test example
-in the root of the repository ({\tt example.cpp}), and a link to it from the
-ensmallen documentation at \url{https://ensmallen.org/docs.html}.  We agree that
-this is a nice improvement; thanks to Reviewer 1 for suggesting this change.
+  \item Following the suggestion of Reviewer 1, we added a simple example program
+in the root of the repository ({\tt example.cpp}), and added a link to it from the
+ensmallen documentation at \url{https://ensmallen.org/docs.html}.
+The example program is indeed very useful for newcomers.
 \end{itemize}
 
-\noindent We are always interested in more opportunities to improve our work,
-and so we look forward to additional feedback. \\
-
-\noindent Thank you!
+\noindent We would like to thank the reviewers for their constructive feedback,
+which has been very useful for improving both the software and the manuscript.
 
 \end{document}
