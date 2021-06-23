@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}ensmallen.hpp\PYGZgt{}}
+
+\PYG{k}{struct} \PYG{n+nc}{LinearRegressionFn}
+\PYG{p}{\PYGZob{}}
+  \PYG{n}{LinearRegressionFn}\PYG{p}{(}\PYG{k}{const} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{mat}\PYG{o}{\PYGZam{}} \PYG{n}{in\PYGZus{}X}\PYG{p}{,} \PYG{k}{const} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{vec}\PYG{o}{\PYGZam{}} \PYG{n}{in\PYGZus{}Y}\PYG{p}{)} \PYG{o}{:} \PYG{n}{X}\PYG{p}{(}\PYG{n}{in\PYGZus{}X}\PYG{p}{),} \PYG{n}{y}\PYG{p}{(}\PYG{n}{in\PYGZus{}Y}\PYG{p}{)} \PYG{p}{\PYGZob{}\PYGZcb{}}
+
+  \PYG{k+kt}{double} \PYG{n}{Evaluate}\PYG{p}{(}\PYG{k}{const} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{mat}\PYG{o}{\PYGZam{}} \PYG{n}{phi}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}} \PYG{k}{const} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{vec} \PYG{n}{tmp} \PYG{o}{=} \PYG{n}{X}\PYG{p}{.}\PYG{n}{t}\PYG{p}{()} \PYG{o}{*} \PYG{n}{phi} \PYG{o}{\PYGZhy{}} \PYG{n}{y}\PYG{p}{;}  \PYG{k}{return} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{tmp}\PYG{p}{,} \PYG{n}{tmp}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+
+  \PYG{k+kt}{void} \PYG{n}{Gradient}\PYG{p}{(}\PYG{k}{const} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{mat}\PYG{o}{\PYGZam{}} \PYG{n}{phi}\PYG{p}{,} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{mat}\PYG{o}{\PYGZam{}} \PYG{n}{grad}\PYG{p}{)}
+    \PYG{p}{\PYGZob{}} \PYG{n}{grad} \PYG{o}{=} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{X} \PYG{o}{*} \PYG{p}{(}\PYG{n}{X}\PYG{p}{.}\PYG{n}{t}\PYG{p}{()} \PYG{o}{*} \PYG{n}{phi} \PYG{o}{\PYGZhy{}} \PYG{n}{y}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+
+  \PYG{k}{const} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{mat}\PYG{o}{\PYGZam{}} \PYG{n}{X}\PYG{p}{;} \PYG{k}{const} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{vec}\PYG{o}{\PYGZam{}} \PYG{n}{y}\PYG{p}{;}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{()}
+\PYG{p}{\PYGZob{}}
+  \PYG{n}{arma}\PYG{o}{::}\PYG{n}{mat} \PYG{n}{X}\PYG{p}{;} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{vec} \PYG{n}{y}\PYG{p}{;}
+  \PYG{c+c1}{// ... set the contents of X and y here ...}
+  \PYG{n}{arma}\PYG{o}{::}\PYG{n}{mat} \PYG{n}{phi\PYGZus{}star}\PYG{p}{(}\PYG{n}{X}\PYG{p}{.}\PYG{n}{n\PYGZus{}rows}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{arma}\PYG{o}{::}\PYG{n}{fill}\PYG{o}{::}\PYG{n}{randu}\PYG{p}{);}  \PYG{c+c1}{// initial point (uniform random)}
+  \PYG{n}{LinearRegressionFn} \PYG{n}{f}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{y}\PYG{p}{);}
+  \PYG{n}{ens}\PYG{o}{::}\PYG{n}{L\PYGZus{}BFGS} \PYG{n}{optimizer}\PYG{p}{;} \PYG{c+c1}{// create an optimizer object with default parameters}
+  \PYG{n}{optimizer}\PYG{p}{.}\PYG{n}{Optimize}\PYG{p}{(}\PYG{n}{f}\PYG{p}{,} \PYG{n}{phi\PYGZus{}star}\PYG{p}{);} \PYG{c+c1}{// after here, phi\PYGZus{}star contains the optimized parameters}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
