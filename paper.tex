@@ -51,10 +51,11 @@
 \newcommand*\rot{\multicolumn{1}{R{30}{2.0em}}}
 
 % Heading arguments are {volume}{year}{pages}{date submitted}{date published}{paper id}{author-full-names}
-\jmlrheading{VV}{YYYY}{page-page}{X/YY}{X/YY}{TODO}{Ryan Curtin, Marcus Edel, Rahul Ganesh Prabhu, Suryoday Basak, Zhihao Lou, Conrad Sanderson}
+\usepackage{lastpage}
+\jmlrheading{22}{2021}{1-\pageref{LastPage}}{5/20; Revised 2/21}{6/21}{20-416}{Ryan R. Curtin, Marcus Edel, Rahul Ganesh Prabhu, Suryoday Basak, Zhihao Lou, Conrad Sanderson}
 
 % Short headings should be running head and authors last names
-\ShortHeadings{The ensmallen library for flexible numerical optimization}{Curtin, Edel, Prabhu, Basak, Lou and Sanderson}
+\ShortHeadings{The ensmallen library for flexible numerical optimization}{Curtin, Edel, Prabhu, Basak, Lou, and Sanderson}
 
 \firstpageno{1}
 
@@ -64,7 +65,7 @@
 
 % compact format for list of authors and affiliations
 \author{%
-  \name Ryan R. Curtin \hfill \email ryan@ratml.org ~|~ \addr RelationalAI, Atlanta, GA 30318, USA\\
+  \name Ryan R. Curtin \hfill \email ryan@ratml.org ~|~ \addr RelationalAI, Atlanta, GA, USA\\
   \name Marcus Edel \hfill \addr Free University of Berlin, Germany\\
   \name Rahul Ganesh Prabhu \hfill \addr Birla Institute of Technology and Science Pilani, India\\
   \name Suryoday Basak \hfill \addr University of Texas at Arlington, USA\\
@@ -93,7 +94,7 @@
 %   \addr Data61/CSIRO, Australia, and Griffith University, Australia%
 %   }
 
-\editor{not currently known}
+\editor{Antti Honkela}
 
 \maketitle
 
