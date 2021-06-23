@@ -1,0 +1,157 @@
+\begin{thebibliography}{24}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abadi et~al.(2016)Abadi, Agarwal, Barham, Brevdo, Chen, Citro,
+  et~al.]{TensorFlow_arXiv_2016}
+Mart\'{\i}n Abadi, Ashish Agarwal, Paul Barham, Eugene Brevdo, Zhifeng Chen,
+  Craig Citro, et~al.
+\newblock {TensorFlow}: Large-scale machine learning on heterogeneous
+  distributed systems.
+\newblock \emph{arXiv:1603.04467}, 2016.
+
+\bibitem[Abrahams and Gurtovoy(2004)]{Abrahams_2004}
+David Abrahams and Aleksey Gurtovoy.
+\newblock \emph{{C++} Template Metaprogramming: Concepts, Tools, and Techniques
+  from Boost and Beyond}.
+\newblock Addison-Wesley Professional, 2004.
+
+\bibitem[Alexandrescu(2001)]{alexandrescu2001modern}
+Andrei Alexandrescu.
+\newblock \emph{Modern C++ design: generic programming and design patterns
+  applied}.
+\newblock Addison-Wesley, 2001.
+
+\bibitem[Anderson et~al.(1999)Anderson, Bai, Bischof, Blackford, Demmel,
+  Dongarra, {Du~Croz}, Greenbaum, Hammarling, McKenney, and
+  Sorensen]{anderson1999lapack}
+E.~Anderson, Z.~Bai, C.~Bischof, S.~Blackford, J.~Demmel, J.~Dongarra,
+  J.~{Du~Croz}, A.~Greenbaum, S.~Hammarling, A.~McKenney, and D.~Sorensen.
+\newblock \emph{LAPACK Users' Guide}.
+\newblock SIAM, 1999.
+
+\bibitem[Chang and Lin(2011)]{libsvm2011}
+Chih-Chung Chang and Chih-Jen Lin.
+\newblock {LibSVM}: A library for support vector machines.
+\newblock \emph{ACM Transactions on Intelligent Systems and Technology},
+  2\penalty0 (3):\penalty0 27, 2011.
+
+\bibitem[Curtin et~al.(2018)Curtin, Edel, Lozhnikov, Mentekidis, Ghaisas, and
+  Zhang]{mlpack2018}
+Ryan~R. Curtin, Marcus Edel, Mikhail Lozhnikov, Yannis Mentekidis, Sumedh
+  Ghaisas, and Shangtong Zhang.
+\newblock mlpack 3: a fast, flexible machine learning library.
+\newblock \emph{Journal of Open Source Software}, 3\penalty0 (26):\penalty0
+  726, 2018.
+
+\bibitem[Curtin et~al.(2020)Curtin, Edel, Prabhu, Basak, Lou, and
+  Sanderson]{ensmallen2020}
+Ryan~R. Curtin, Marcus Edel, Rahul~Ganesh Prabhu, Suryoday Basak, Zhihao Lou,
+  and Conrad Sanderson.
+\newblock Flexible numerical optimization with ensmallen.
+\newblock \emph{arXiv:2003.04103}, 2020.
+
+\bibitem[Eaton et~al.(2018)Eaton, Bateman, Hauberg, and Wehbring]{octave}
+John~W. Eaton, David Bateman, S{\o}ren Hauberg, and Rik Wehbring.
+\newblock \emph{{GNU Octave} version 4.4.0 manual: a high-level interactive
+  language for numerical computations}, 2018.
+
+\bibitem[Intel(2020)]{IntelMKL}
+Intel.
+\newblock {Math Kernel Library (MKL)}, 2020.
+\newblock URL \url{https://software.intel.com/mkl}.
+
+\bibitem[Kirkpatrick et~al.(1983)Kirkpatrick, Gelatt, and
+  Vecchi]{kirkpatrick1983optimization}
+Scott Kirkpatrick, C~Daniel Gelatt, and Mario~P Vecchi.
+\newblock Optimization by simulated annealing.
+\newblock \emph{Science}, 220\penalty0 (4598):\penalty0 671--680, 1983.
+
+\bibitem[Lichman(2013)]{ucimlrepository}
+M.~Lichman.
+\newblock {UCI} {M}achine {L}earning {R}epository, 2013.
+\newblock \url{http://archive.ics.uci.edu/ml}.
+
+\bibitem[Liu and Nocedal(1989)]{liu1989limited}
+Dong~C Liu and Jorge Nocedal.
+\newblock On the limited memory {BFGS} method for large scale optimization.
+\newblock \emph{Mathematical Programming}, 45\penalty0 (1-3):\penalty0
+  503--528, 1989.
+
+\bibitem[Maclaurin et~al.(2015)Maclaurin, Duvenaud, and
+  Adams]{maclaurin2015autograd}
+Dougal Maclaurin, David Duvenaud, and Ryan~P Adams.
+\newblock Autograd: Effortless gradients in {NumPy}.
+\newblock In \emph{AutoML Workshop at ICML}, 2015.
+
+\bibitem[Meza(1994)]{meza1994opt++}
+Juan~C. Meza.
+\newblock {OPT++}: An object-oriented class library for nonlinear optimization.
+\newblock Technical report, Sandia National Labs., Livermore, CA (United
+  States), 1994.
+
+\bibitem[Mogensen and Riseth(2018)]{mogensen2018optim}
+Patrick~Kofod Mogensen and Asbj{\o}rn~Nilsen Riseth.
+\newblock Optim: A mathematical optimization package for {Julia}.
+\newblock \emph{Journal of Open Source Software}, 3\penalty0 (24):\penalty0
+  615, 2018.
+
+\bibitem[Mokhtari et~al.(2018)Mokhtari, Eisen, and Ribeiro]{mokhtari2018}
+Aryan Mokhtari, Mark Eisen, and Alejandro Ribeiro.
+\newblock {IQN}: An incremental quasi-{Newton} method with local superlinear
+  convergence rate.
+\newblock \emph{SIAM Journal on Optimization}, 28\penalty0 (2):\penalty0
+  1670--1698, 2018.
+
+\bibitem[Nocedal and Wright(2006)]{Nocedal_2006}
+Jorge Nocedal and Stephen Wright.
+\newblock \emph{Numerical Optimization}.
+\newblock Springer, 2nd edition, 2006.
+
+\bibitem[Paszke et~al.(2019)Paszke, Gross, Massa, Lerer, Bradbury, Chanan,
+  et~al.]{PyTorch_NeurIPS_2019}
+Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory
+  Chanan, et~al.
+\newblock {PyTorch}: An imperative style, high-performance deep learning
+  library.
+\newblock In \emph{Advances in Neural Information Processing Systems 32}, pages
+  8024--8035, 2019.
+
+\bibitem[Perron and Furnon(2019)]{ortools}
+Laurent Perron and Vincent Furnon.
+\newblock {OR}-tools, 2019.
+\newblock URL \url{https://developers.google.com/optimization/}.
+
+\bibitem[Ruder(2016)]{Ruder_2016}
+Sebastian Ruder.
+\newblock An overview of gradient descent optimization algorithms.
+\newblock \emph{arXiv:1609.04747}, 2016.
+
+\bibitem[Sanderson and Curtin(2016)]{sanderson2016armadillo}
+Conrad Sanderson and Ryan~R. Curtin.
+\newblock Armadillo: a template-based {C++} library for linear algebra.
+\newblock \emph{Journal of Open Source Software}, 1\penalty0 (2):\penalty0 26,
+  2016.
+
+\bibitem[{St.~Laurent}(2008)]{Laurent_2008}
+Andrew {St.~Laurent}.
+\newblock \emph{Understanding Open Source and Free Software Licensing}.
+\newblock O'Reilly Media, 2008.
+
+\bibitem[Virtanen et~al.(2020)Virtanen, Gommers, Oliphant, Haberland, Reddy,
+  et~al.]{SciPy_NMeth_2020}
+Pauli Virtanen, Ralf Gommers, Travis~E. Oliphant, Matt Haberland, Tyler Reddy,
+  et~al.
+\newblock {SciPy~1.0}: fundamental algorithms for scientific computing in
+  {Python}.
+\newblock \emph{Nature Methods}, 17:\penalty0 261--272, 2020.
+
+\bibitem[Xianyi et~al.(2020)Xianyi, Qian, and Saar]{OpenBLAS}
+Zhang Xianyi, Wang Qian, and Werner Saar.
+\newblock {OpenBLAS}, 2020.
+\newblock URL \url{http://www.openblas.net}.
+
+\end{thebibliography}
